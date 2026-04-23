@@ -1,0 +1,3 @@
+Adafruit CircuitPython 10.1.4 on 2026-03-09; Raspberry Pi Zero 2W with bcm2837
+Board ID:raspberrypi_zero2w
+UID:000000005961F3BB
