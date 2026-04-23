@@ -18,7 +18,7 @@ from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS
 # ----------------------------
 # Config
 # ----------------------------
-INPUT_PATH = "/merged_hid_event_dataset.json"
+INPUT_PATH = "/dataset.json"
 
 INITIAL_DELAY_S = 10
 INTER_SEQUENCE_DELAY_S = 2
@@ -30,7 +30,7 @@ ENABLE_SPEED_SWEEP = True
 SPEED_PROFILES_MS = [240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0]
 DEFAULT_FIXED_DELAY_MS = 200   # used if ENABLE_SPEED_SWEEP = False
 
-LOG_PATH = "/speed_sweep_log.csv"
+LOG_PATH = "/result_log.csv"
 
 # ----------------------------
 # HID setup
