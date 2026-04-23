@@ -1,4 +1,3 @@
-
 import time
 import json
 import os
@@ -9,26 +8,28 @@ from adafruit_hid.keycode import Keycode
 from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS
 
 # ============================================================
-# CircuitPython HID runner with fixed-delay speed sweep
-# - Reads JSON or TXT event list
-# - Runs the same dataset repeatedly at descending fixed speeds
-# - No jitter
+# CircuitPython HID runner
+# - Reads merged sequence dataset
 # - Supports TEXT, KEY, COMBO, DELAY
+# - Runs sequences with fixed speed profiles
+# - Preserves word boundaries if dataset includes SPACE events
 # ============================================================
 
 # ----------------------------
-# Main config
+# Config
 # ----------------------------
-INPUT_PATH = "/safe_hid_starter_dataset.json"   # or "/safe_hid_starter_wordlist.txt"
-USE_SAMPLE_SEQUENCES_IF_JSON = False            # False = run whole dataset vocabulary; True = sample_sequences only
-INITIAL_DELAY_S = 3                             # wait after USB enumeration
-INTER_RUN_DELAY_S = 10                          # cooldown between speed profiles
-COMBO_HOLD_MS = 50                              # how long a combo is held before release
+INPUT_PATH = "/merged_hid_event_dataset.json"
 
-# Fixed speed sweep: 240 -> 0 by 20
+INITIAL_DELAY_S = 10
+INTER_SEQUENCE_DELAY_S = 2
+INTER_PROFILE_DELAY_S = 8
+COMBO_HOLD_MS = 50
+
+# Speed typing feature
+ENABLE_SPEED_SWEEP = True
 SPEED_PROFILES_MS = [240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0]
+DEFAULT_FIXED_DELAY_MS = 200   # used if ENABLE_SPEED_SWEEP = False
 
-# Optional log path on CIRCUITPY drive
 LOG_PATH = "/speed_sweep_log.csv"
 
 # ----------------------------
@@ -122,11 +123,8 @@ for i in range(1, 13):
 def sleep_ms(ms):
     time.sleep(ms / 1000.0)
 
-def normalize_token(token):
-    return token.strip().upper()
-
 def get_keycode(token):
-    token = normalize_token(token)
+    token = token.strip().upper()
     if token not in KEYMAP:
         raise ValueError("Unsupported key token: {}".format(token))
     return KEYMAP[token]
@@ -134,19 +132,24 @@ def get_keycode(token):
 def ensure_log_header():
     try:
         need_header = False
-        root_files = os.listdir("/")
-        if LOG_PATH.strip("/") not in root_files:
+        if LOG_PATH.strip("/") not in os.listdir("/"):
             need_header = True
         with open(LOG_PATH, "a") as f:
             if need_header:
-                f.write("monotonic_s,event,profile_ms,note\n")
+                f.write("monotonic_s,event,profile_ms,sequence_id,note\n")
     except Exception:
         pass
 
-def log_event(event, profile_ms, note=""):
+def log_event(event, profile_ms, sequence_id="", note=""):
     try:
         with open(LOG_PATH, "a") as f:
-            f.write("{:.3f},{},{},{}\n".format(time.monotonic(), event, profile_ms, note.replace(",", ";")))
+            f.write("{:.3f},{},{},{},{}\n".format(
+                time.monotonic(),
+                event,
+                profile_ms,
+                sequence_id,
+                note.replace(",", ";")
+            ))
     except Exception:
         pass
 
@@ -164,84 +167,6 @@ def send_combo(keys):
     kbd.press(*codes)
     sleep_ms(COMBO_HOLD_MS)
     kbd.release_all()
-
-# ----------------------------
-# Event loading
-# ----------------------------
-def txt_line_to_event(line):
-    line = line.strip()
-    if not line or line.startswith("#"):
-        return None
-
-    if line.startswith("TEXT:"):
-        return {"type": "text", "value": line[len("TEXT:"):].strip()}
-
-    if line.startswith("KEY:"):
-        return {"type": "key", "key": line[len("KEY:"):].strip()}
-
-    if line.startswith("COMBO:"):
-        return {"type": "combo", "keys": line[len("COMBO:"):].strip().split()}
-
-    if line.startswith("DELAY:"):
-        return {"type": "delay", "ms": int(line[len("DELAY:"):].strip())}
-
-    raise ValueError("Unsupported TXT line format: {}".format(line))
-
-def load_events_from_txt(path):
-    events = []
-    with open(path, "r") as f:
-        for raw_line in f:
-            event = txt_line_to_event(raw_line)
-            if event is not None:
-                events.append(event)
-    return events
-
-def load_events_from_json(path):
-    with open(path, "r") as f:
-        data = json.load(f)
-
-    # Raw event list
-    if isinstance(data, list):
-        return data
-
-    # Sequence container
-    if isinstance(data, dict):
-        if USE_SAMPLE_SEQUENCES_IF_JSON and "sample_sequences" in data:
-            events = []
-            for seq in data["sample_sequences"]:
-                for event in seq.get("events", []):
-                    events.append(event)
-            return events
-
-        if "events" in data:
-            return data["events"]
-
-        # Vocabulary-style dataset -> convert to event list
-        events = []
-        for word in data.get("words", []):
-            events.append({"type": "text", "value": word})
-
-        for phrase in data.get("phrases", []):
-            events.append({"type": "text", "value": phrase})
-
-        for key in data.get("single_keys", []):
-            events.append({"type": "key", "key": key})
-
-        for combo in data.get("combos", []):
-            if isinstance(combo, dict) and "keys" in combo:
-                events.append({"type": "combo", "keys": combo["keys"]})
-
-        return events
-
-    raise ValueError("Unsupported JSON structure")
-
-def load_events(path):
-    lower = path.lower()
-    if lower.endswith(".txt"):
-        return load_events_from_txt(path)
-    if lower.endswith(".json"):
-        return load_events_from_json(path)
-    raise ValueError("Unsupported input file type: {}".format(path))
 
 # ----------------------------
 # Event execution
@@ -268,11 +193,42 @@ def run_event(event, fixed_delay_ms):
     else:
         raise ValueError("Unknown event type: {}".format(etype))
 
-def run_profile(events, fixed_delay_ms):
-    log_event("START_PROFILE", fixed_delay_ms, "begin run")
-    for idx, event in enumerate(events):
+# ----------------------------
+# Dataset loading
+# ----------------------------
+def load_sequences(path):
+    with open(path, "r") as f:
+        data = json.load(f)
+
+    if isinstance(data, dict) and "sequences" in data:
+        return data["sequences"]
+
+    if isinstance(data, dict) and "events" in data:
+        return [{"id": "seq_default", "label": "default", "events": data["events"]}]
+
+    if isinstance(data, list):
+        return [{"id": "seq_default", "label": "default", "events": data}]
+
+    raise ValueError("Unsupported dataset structure")
+
+# ----------------------------
+# Sequence / profile execution
+# ----------------------------
+def run_sequence(sequence, fixed_delay_ms):
+    seq_id = sequence.get("id", "unknown")
+    events = sequence.get("events", [])
+
+    log_event("START_SEQUENCE", fixed_delay_ms, seq_id, "begin")
+    for event in events:
         run_event(event, fixed_delay_ms)
-    log_event("END_PROFILE", fixed_delay_ms, "finished run")
+    log_event("END_SEQUENCE", fixed_delay_ms, seq_id, "done")
+
+def run_single_profile(sequences, profile_ms):
+    log_event("START_PROFILE", profile_ms, "", "profile begin")
+    for sequence in sequences:
+        run_sequence(sequence, profile_ms)
+        time.sleep(INTER_SEQUENCE_DELAY_S)
+    log_event("END_PROFILE", profile_ms, "", "profile done")
 
 # ----------------------------
 # Main
@@ -280,19 +236,22 @@ def run_profile(events, fixed_delay_ms):
 def main():
     time.sleep(INITIAL_DELAY_S)
     ensure_log_header()
-    events = load_events(INPUT_PATH)
+    sequences = load_sequences(INPUT_PATH)
 
-    for profile_ms in SPEED_PROFILES_MS:
-        run_profile(events, profile_ms)
-        time.sleep(INTER_RUN_DELAY_S)
+    if ENABLE_SPEED_SWEEP:
+        for profile_ms in SPEED_PROFILES_MS:
+            run_single_profile(sequences, profile_ms)
+            time.sleep(INTER_PROFILE_DELAY_S)
+    else:
+        run_single_profile(sequences, DEFAULT_FIXED_DELAY_MS)
 
-    log_event("DONE", -1, "all profiles finished")
+    log_event("DONE", -1, "", "all runs finished")
 
 try:
     main()
 except Exception as e:
     try:
-        log_event("ERROR", -1, str(e))
+        log_event("ERROR", -1, "", str(e))
     except Exception:
         pass
     while True:

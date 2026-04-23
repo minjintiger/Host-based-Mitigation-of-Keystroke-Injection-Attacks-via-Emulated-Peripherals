@@ -1,652 +1,1795 @@
 {
   "meta": {
-    "name": "safe_hid_wordlist_and_combos_starter",
-    "description": "Starter corpus of benign text, phrases, keys, and shortcut combinations for USB HID typing tests. Excludes destructive or admin command strings.",
+    "name": "merged_hid_event_dataset",
+    "description": "Merged dataset combining word-boundary-safe events and explicit daemon test sequences.",
     "format_version": 1
   },
-  "words": [
-    "hello",
-    "hi",
-    "test",
-    "sample",
-    "demo",
-    "input",
-    "typing",
-    "keyboard",
-    "window",
-    "browser",
-    "search",
-    "open",
-    "close",
-    "save",
-    "cancel",
-    "copy",
-    "paste",
-    "cut",
-    "undo",
-    "redo",
-    "file",
-    "folder",
-    "document",
-    "note",
-    "notes",
-    "message",
-    "email",
-    "address",
-    "username",
-    "password",
-    "project",
-    "report",
-    "summary",
-    "update",
-    "status",
-    "result",
-    "data",
-    "analysis",
-    "system",
-    "network",
-    "device",
-    "screen",
-    "display",
-    "terminal",
-    "command",
-    "process",
-    "service",
-    "daemon",
-    "alert",
-    "event",
-    "human",
-    "machine",
-    "speed",
-    "delay",
-    "jitter",
-    "timing",
-    "baseline",
-    "detection",
-    "response",
-    "block",
-    "allow",
-    "normal",
-    "benign",
-    "suspicious",
-    "sequence",
-    "combo",
-    "shortcut",
-    "navigation",
-    "selection",
-    "focus",
-    "scroll",
-    "refresh",
-    "reload",
-    "history",
-    "download",
-    "upload",
-    "settings",
-    "help",
-    "about",
-    "tools",
-    "today",
-    "tomorrow",
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-    "sunday",
-    "red",
-    "blue",
-    "green",
-    "yellow",
-    "black",
-    "white",
-    "orange",
-    "purple",
-    "silver",
-    "gold",
-    "cat",
-    "dog",
-    "bird",
-    "apple",
-    "banana",
-    "grape",
-    "coffee",
-    "water",
-    "music",
-    "video",
-    "school",
-    "office",
-    "home",
-    "work",
-    "meeting",
-    "calendar",
-    "task",
-    "checklist",
-    "review",
-    "version",
-    "alpha",
-    "beta",
-    "gamma",
-    "delta",
-    "omega",
-    "one",
-    "two",
-    "three",
-    "four",
-    "five",
-    "quick",
-    "slow",
-    "random",
-    "fixed",
-    "simple",
-    "mixed",
-    "long",
-    "short",
-    "clean",
-    "safe",
-    "north",
-    "south",
-    "east",
-    "west",
-    "center",
-    "left",
-    "right",
-    "up",
-    "down",
-    "start",
-    "stop",
-    "begin",
-    "continue",
-    "finish",
-    "confirm",
-    "deny",
-    "accept",
-    "reject",
-    "select",
-    "submit",
-    "draft",
-    "final",
-    "local",
-    "remote",
-    "public",
-    "private",
-    "guest",
-    "admin",
-    "server",
-    "client",
-    "linux",
-    "windows",
-    "mac",
-    "chrome",
-    "edge",
-    "firefox",
-    "editor",
-    "notepad",
-    "calculator",
-    "explorer",
-    "monitor",
-    "mouse",
-    "trackpad",
-    "speaker",
-    "camera",
-    "microphone",
-    "printer",
-    "scanner",
-    "router",
-    "switch"
-  ],
-  "phrases": [
-    "hello world",
-    "this is a test",
-    "sample input text",
-    "quick brown fox",
-    "typing speed check",
-    "normal human typing",
-    "background daemon test",
-    "usb keyboard input",
-    "open browser window",
-    "save the document",
-    "close the tab",
-    "search in page",
-    "copy and paste",
-    "undo the change",
-    "redo the action",
-    "new file created",
-    "project status update",
-    "meeting notes draft",
-    "final report version",
-    "please review this",
-    "system settings page",
-    "network status check",
-    "calendar event added",
-    "task list updated",
-    "safe benign dataset",
-    "timing jitter profile",
-    "sequence completed successfully",
-    "return to previous page",
-    "switch to next window",
-    "refresh the browser"
-  ],
-  "single_keys": [
-    "ENTER",
-    "TAB",
-    "SPACE",
-    "ESCAPE",
-    "BACKSPACE",
-    "DELETE",
-    "INSERT",
-    "HOME",
-    "END",
-    "PAGE_UP",
-    "PAGE_DOWN",
-    "UP_ARROW",
-    "DOWN_ARROW",
-    "LEFT_ARROW",
-    "RIGHT_ARROW",
-    "CAPS_LOCK",
-    "PRINT_SCREEN",
-    "PAUSE",
-    "F1",
-    "F2",
-    "F3",
-    "F4",
-    "F5",
-    "F6",
-    "F7",
-    "F8",
-    "F9",
-    "F10",
-    "F11",
-    "F12"
-  ],
-  "combos": [
+  "sequences": [
     {
-      "keys": [
-        "GUI",
-        "R"
-      ]
-    },
-    {
-      "keys": [
-        "GUI",
-        "E"
-      ]
-    },
-    {
-      "keys": [
-        "GUI",
-        "D"
-      ]
-    },
-    {
-      "keys": [
-        "GUI",
-        "L"
-      ]
-    },
-    {
-      "keys": [
-        "GUI",
-        "I"
-      ]
-    },
-    {
-      "keys": [
-        "GUI",
-        "TAB"
-      ]
-    },
-    {
-      "keys": [
-        "ALT",
-        "TAB"
-      ]
-    },
-    {
-      "keys": [
-        "ALT",
-        "F4"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "SHIFT",
-        "ESC"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "ALT",
-        "DELETE"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "A"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "C"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "V"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "X"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "Z"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "Y"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "F"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "H"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "N"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "O"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "P"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "S"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "W"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "Q"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "B"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "I"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "U"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "L"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "R"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "T"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "SHIFT",
-        "T"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "TAB"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "SHIFT",
-        "TAB"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "PLUS"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "MINUS"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "ZERO"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "J"
-      ]
-    },
-    {
-      "keys": [
-        "SHIFT",
-        "TAB"
-      ]
-    },
-    {
-      "keys": [
-        "SHIFT",
-        "ENTER"
-      ]
-    },
-    {
-      "keys": [
-        "SHIFT",
-        "DELETE"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "LEFT_ARROW"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "RIGHT_ARROW"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "BACKSPACE"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "DELETE"
-      ]
-    },
-    {
-      "keys": [
-        "SHIFT",
-        "LEFT_ARROW"
-      ]
-    },
-    {
-      "keys": [
-        "SHIFT",
-        "RIGHT_ARROW"
-      ]
-    },
-    {
-      "keys": [
-        "SHIFT",
-        "UP_ARROW"
-      ]
-    },
-    {
-      "keys": [
-        "SHIFT",
-        "DOWN_ARROW"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "SHIFT",
-        "LEFT_ARROW"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "SHIFT",
-        "RIGHT_ARROW"
-      ]
-    },
-    {
-      "keys": [
-        "HOME",
-        "SHIFT"
-      ]
-    },
-    {
-      "keys": [
-        "END",
-        "SHIFT"
-      ]
-    },
-    {
-      "keys": [
-        "ALT",
-        "SPACE"
-      ]
-    },
-    {
-      "keys": [
-        "CTRL",
-        "ESCAPE"
-      ]
-    },
-    {
-      "keys": [
-        "GUI",
-        "UP_ARROW"
-      ]
-    },
-    {
-      "keys": [
-        "GUI",
-        "DOWN_ARROW"
-      ]
-    },
-    {
-      "keys": [
-        "GUI",
-        "LEFT_ARROW"
-      ]
-    },
-    {
-      "keys": [
-        "GUI",
-        "RIGHT_ARROW"
-      ]
-    }
-  ],
-  "extra_tokens": [
-    "PLUS",
-    "MINUS",
-    "ZERO",
-    "ONE",
-    "TWO",
-    "THREE",
-    "FOUR",
-    "FIVE",
-    "SIX",
-    "SEVEN",
-    "EIGHT",
-    "NINE"
-  ],
-  "sample_sequences": [
-    {
-      "id": "seq_open_search",
+      "id": "seq_space_word_corpus",
+      "label": "word_boundary_corpus",
       "events": [
         {
-          "type": "combo",
-          "keys": [
-            "GUI",
-            "R"
-          ]
+          "type": "text",
+          "value": "hello"
         },
         {
-          "type": "delay",
-          "ms": 250
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "hi"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "test"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "sample"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "demo"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "input"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "typing"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "keyboard"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "window"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "browser"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "search"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "open"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "close"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "save"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "cancel"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "copy"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "paste"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "cut"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "undo"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "redo"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "file"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "folder"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "document"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "note"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "notes"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "message"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "email"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "address"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "username"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "password"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "project"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "report"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "summary"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "update"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "status"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "result"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "data"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "analysis"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "system"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "network"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "device"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "screen"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "display"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "terminal"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "command"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "process"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "service"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "daemon"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "alert"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "event"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "human"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "machine"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "speed"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "delay"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "jitter"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "timing"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "baseline"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "detection"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "response"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "block"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "allow"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "normal"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "benign"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "suspicious"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "sequence"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "combo"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "shortcut"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "navigation"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "selection"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "focus"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "scroll"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "refresh"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "reload"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "history"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "download"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "upload"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "settings"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "help"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "about"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "tools"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "today"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "tomorrow"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "monday"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "tuesday"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "wednesday"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "thursday"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "friday"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "saturday"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "sunday"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "red"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "blue"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "green"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "yellow"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "black"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "white"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "orange"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "purple"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "silver"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "gold"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "cat"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "dog"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "bird"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "apple"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "banana"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "grape"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "coffee"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "water"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "music"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "video"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "school"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "office"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "home"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "work"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "meeting"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "calendar"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "task"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "checklist"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "review"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "version"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "alpha"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "beta"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "gamma"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "delta"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "omega"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "one"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "two"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "three"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "four"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "five"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "quick"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "slow"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "random"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "fixed"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "simple"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "mixed"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "long"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "short"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "clean"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "safe"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "north"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "south"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "east"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "west"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "center"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "left"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "right"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "up"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "down"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "start"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "stop"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "begin"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "continue"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "finish"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "confirm"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "deny"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "accept"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "reject"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "select"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "submit"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "draft"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "final"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "local"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "remote"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "public"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "private"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "guest"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "admin"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "server"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "client"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "linux"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "windows"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "mac"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "chrome"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "edge"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "firefox"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "editor"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
         },
         {
           "type": "text",
           "value": "notepad"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "calculator"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "explorer"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "monitor"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "mouse"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "trackpad"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "speaker"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "camera"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "microphone"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "printer"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "scanner"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "router"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "switch"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "hello world"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "this is a test"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "sample input text"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "quick brown fox"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "typing speed check"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "normal human typing"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "background daemon test"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "usb keyboard input"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "open browser window"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "save the document"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "close the tab"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "search in page"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "copy and paste"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "undo the change"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "redo the action"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "new file created"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "project status update"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "meeting notes draft"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "final report version"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "please review this"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "system settings page"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "network status check"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "calendar event added"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "task list updated"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "safe benign dataset"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "timing jitter profile"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "sequence completed successfully"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "return to previous page"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "switch to next window"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "refresh the browser"
+        }
+      ]
+    },
+    {
+      "id": "seq_words_spaces_01",
+      "label": "benign_words",
+      "events": [
+        {
+          "type": "text",
+          "value": "hello"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "world"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "test"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "input"
         },
         {
           "type": "key",
@@ -655,7 +1798,22 @@
       ]
     },
     {
-      "id": "seq_browser_address",
+      "id": "seq_phrase_01",
+      "label": "benign_phrase",
+      "events": [
+        {
+          "type": "text",
+          "value": "this is a test"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "seq_browser_like_01",
+      "label": "mixed_browser",
       "events": [
         {
           "type": "combo",
@@ -666,7 +1824,7 @@
         },
         {
           "type": "delay",
-          "ms": 120
+          "ms": 300
         },
         {
           "type": "text",
@@ -679,11 +1837,37 @@
       ]
     },
     {
-      "id": "seq_editing",
+      "id": "seq_windows_run_01",
+      "label": "mixed_hotkey_text",
+      "events": [
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "R"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "text",
+          "value": "notepad"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "seq_editing_01",
+      "label": "editing",
       "events": [
         {
           "type": "text",
-          "value": "hello world"
+          "value": "sample text"
         },
         {
           "type": "combo",
@@ -705,7 +1889,90 @@
             "CTRL",
             "V"
           ]
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
         }
+      ]
+    },
+    {
+      "id": "seq_navigation_01",
+      "label": "navigation",
+      "events": [
+        {
+          "type": "combo",
+          "keys": [
+            "ALT",
+            "TAB"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 200
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "E"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 200
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "seq_windows_hotkeys_all",
+      "label": "windows_hotkeys",
+      "events": [
+        {"type": "combo", "keys": ["GUI", "R"]},
+        {"type": "delay", "ms": 300},
+    
+        {"type": "combo", "keys": ["GUI", "E"]},
+        {"type": "delay", "ms": 300},
+    
+        {"type": "combo", "keys": ["GUI", "D"]},
+        {"type": "delay", "ms": 300},
+    
+        {"type": "combo", "keys": ["GUI", "L"]},
+        {"type": "delay", "ms": 300},
+    
+        {"type": "combo", "keys": ["GUI", "I"]},
+        {"type": "delay", "ms": 300},
+    
+        {"type": "combo", "keys": ["GUI", "TAB"]},
+        {"type": "delay", "ms": 300},
+    
+        {"type": "combo", "keys": ["ALT", "TAB"]},
+        {"type": "delay", "ms": 300},
+    
+        {"type": "combo", "keys": ["ALT", "F4"]},
+        {"type": "delay", "ms": 300},
+    
+        {"type": "combo", "keys": ["CTRL", "SHIFT", "ESC"]},
+        {"type": "delay", "ms": 300},
+    
+        {"type": "combo", "keys": ["CTRL", "ALT", "DELETE"]},
+        {"type": "delay", "ms": 300},
+    
+        {"type": "combo", "keys": ["GUI", "UP_ARROW"]},
+        {"type": "delay", "ms": 300},
+    
+        {"type": "combo", "keys": ["GUI", "DOWN_ARROW"]},
+        {"type": "delay", "ms": 300},
+    
+        {"type": "combo", "keys": ["GUI", "LEFT_ARROW"]},
+        {"type": "delay", "ms": 300},
+    
+        {"type": "combo", "keys": ["GUI", "RIGHT_ARROW"]},
+        {"type": "delay", "ms": 300}
       ]
     }
   ]
