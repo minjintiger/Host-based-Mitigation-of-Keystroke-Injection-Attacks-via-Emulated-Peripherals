@@ -1,0 +1,712 @@
+{
+  "meta": {
+    "name": "safe_hid_wordlist_and_combos_starter",
+    "description": "Starter corpus of benign text, phrases, keys, and shortcut combinations for USB HID typing tests. Excludes destructive or admin command strings.",
+    "format_version": 1
+  },
+  "words": [
+    "hello",
+    "hi",
+    "test",
+    "sample",
+    "demo",
+    "input",
+    "typing",
+    "keyboard",
+    "window",
+    "browser",
+    "search",
+    "open",
+    "close",
+    "save",
+    "cancel",
+    "copy",
+    "paste",
+    "cut",
+    "undo",
+    "redo",
+    "file",
+    "folder",
+    "document",
+    "note",
+    "notes",
+    "message",
+    "email",
+    "address",
+    "username",
+    "password",
+    "project",
+    "report",
+    "summary",
+    "update",
+    "status",
+    "result",
+    "data",
+    "analysis",
+    "system",
+    "network",
+    "device",
+    "screen",
+    "display",
+    "terminal",
+    "command",
+    "process",
+    "service",
+    "daemon",
+    "alert",
+    "event",
+    "human",
+    "machine",
+    "speed",
+    "delay",
+    "jitter",
+    "timing",
+    "baseline",
+    "detection",
+    "response",
+    "block",
+    "allow",
+    "normal",
+    "benign",
+    "suspicious",
+    "sequence",
+    "combo",
+    "shortcut",
+    "navigation",
+    "selection",
+    "focus",
+    "scroll",
+    "refresh",
+    "reload",
+    "history",
+    "download",
+    "upload",
+    "settings",
+    "help",
+    "about",
+    "tools",
+    "today",
+    "tomorrow",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+    "red",
+    "blue",
+    "green",
+    "yellow",
+    "black",
+    "white",
+    "orange",
+    "purple",
+    "silver",
+    "gold",
+    "cat",
+    "dog",
+    "bird",
+    "apple",
+    "banana",
+    "grape",
+    "coffee",
+    "water",
+    "music",
+    "video",
+    "school",
+    "office",
+    "home",
+    "work",
+    "meeting",
+    "calendar",
+    "task",
+    "checklist",
+    "review",
+    "version",
+    "alpha",
+    "beta",
+    "gamma",
+    "delta",
+    "omega",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "quick",
+    "slow",
+    "random",
+    "fixed",
+    "simple",
+    "mixed",
+    "long",
+    "short",
+    "clean",
+    "safe",
+    "north",
+    "south",
+    "east",
+    "west",
+    "center",
+    "left",
+    "right",
+    "up",
+    "down",
+    "start",
+    "stop",
+    "begin",
+    "continue",
+    "finish",
+    "confirm",
+    "deny",
+    "accept",
+    "reject",
+    "select",
+    "submit",
+    "draft",
+    "final",
+    "local",
+    "remote",
+    "public",
+    "private",
+    "guest",
+    "admin",
+    "server",
+    "client",
+    "linux",
+    "windows",
+    "mac",
+    "chrome",
+    "edge",
+    "firefox",
+    "editor",
+    "notepad",
+    "calculator",
+    "explorer",
+    "monitor",
+    "mouse",
+    "trackpad",
+    "speaker",
+    "camera",
+    "microphone",
+    "printer",
+    "scanner",
+    "router",
+    "switch"
+  ],
+  "phrases": [
+    "hello world",
+    "this is a test",
+    "sample input text",
+    "quick brown fox",
+    "typing speed check",
+    "normal human typing",
+    "background daemon test",
+    "usb keyboard input",
+    "open browser window",
+    "save the document",
+    "close the tab",
+    "search in page",
+    "copy and paste",
+    "undo the change",
+    "redo the action",
+    "new file created",
+    "project status update",
+    "meeting notes draft",
+    "final report version",
+    "please review this",
+    "system settings page",
+    "network status check",
+    "calendar event added",
+    "task list updated",
+    "safe benign dataset",
+    "timing jitter profile",
+    "sequence completed successfully",
+    "return to previous page",
+    "switch to next window",
+    "refresh the browser"
+  ],
+  "single_keys": [
+    "ENTER",
+    "TAB",
+    "SPACE",
+    "ESCAPE",
+    "BACKSPACE",
+    "DELETE",
+    "INSERT",
+    "HOME",
+    "END",
+    "PAGE_UP",
+    "PAGE_DOWN",
+    "UP_ARROW",
+    "DOWN_ARROW",
+    "LEFT_ARROW",
+    "RIGHT_ARROW",
+    "CAPS_LOCK",
+    "PRINT_SCREEN",
+    "PAUSE",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8",
+    "F9",
+    "F10",
+    "F11",
+    "F12"
+  ],
+  "combos": [
+    {
+      "keys": [
+        "GUI",
+        "R"
+      ]
+    },
+    {
+      "keys": [
+        "GUI",
+        "E"
+      ]
+    },
+    {
+      "keys": [
+        "GUI",
+        "D"
+      ]
+    },
+    {
+      "keys": [
+        "GUI",
+        "L"
+      ]
+    },
+    {
+      "keys": [
+        "GUI",
+        "I"
+      ]
+    },
+    {
+      "keys": [
+        "GUI",
+        "TAB"
+      ]
+    },
+    {
+      "keys": [
+        "ALT",
+        "TAB"
+      ]
+    },
+    {
+      "keys": [
+        "ALT",
+        "F4"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "SHIFT",
+        "ESC"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "ALT",
+        "DELETE"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "A"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "C"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "V"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "X"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "Z"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "Y"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "F"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "H"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "N"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "O"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "P"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "S"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "W"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "Q"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "B"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "I"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "U"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "L"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "R"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "T"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "SHIFT",
+        "T"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "TAB"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "SHIFT",
+        "TAB"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "PLUS"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "MINUS"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "ZERO"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "J"
+      ]
+    },
+    {
+      "keys": [
+        "SHIFT",
+        "TAB"
+      ]
+    },
+    {
+      "keys": [
+        "SHIFT",
+        "ENTER"
+      ]
+    },
+    {
+      "keys": [
+        "SHIFT",
+        "DELETE"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "LEFT_ARROW"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "RIGHT_ARROW"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "BACKSPACE"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "DELETE"
+      ]
+    },
+    {
+      "keys": [
+        "SHIFT",
+        "LEFT_ARROW"
+      ]
+    },
+    {
+      "keys": [
+        "SHIFT",
+        "RIGHT_ARROW"
+      ]
+    },
+    {
+      "keys": [
+        "SHIFT",
+        "UP_ARROW"
+      ]
+    },
+    {
+      "keys": [
+        "SHIFT",
+        "DOWN_ARROW"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "SHIFT",
+        "LEFT_ARROW"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "SHIFT",
+        "RIGHT_ARROW"
+      ]
+    },
+    {
+      "keys": [
+        "HOME",
+        "SHIFT"
+      ]
+    },
+    {
+      "keys": [
+        "END",
+        "SHIFT"
+      ]
+    },
+    {
+      "keys": [
+        "ALT",
+        "SPACE"
+      ]
+    },
+    {
+      "keys": [
+        "CTRL",
+        "ESCAPE"
+      ]
+    },
+    {
+      "keys": [
+        "GUI",
+        "UP_ARROW"
+      ]
+    },
+    {
+      "keys": [
+        "GUI",
+        "DOWN_ARROW"
+      ]
+    },
+    {
+      "keys": [
+        "GUI",
+        "LEFT_ARROW"
+      ]
+    },
+    {
+      "keys": [
+        "GUI",
+        "RIGHT_ARROW"
+      ]
+    }
+  ],
+  "extra_tokens": [
+    "PLUS",
+    "MINUS",
+    "ZERO",
+    "ONE",
+    "TWO",
+    "THREE",
+    "FOUR",
+    "FIVE",
+    "SIX",
+    "SEVEN",
+    "EIGHT",
+    "NINE"
+  ],
+  "sample_sequences": [
+    {
+      "id": "seq_open_search",
+      "events": [
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "R"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 250
+        },
+        {
+          "type": "text",
+          "value": "notepad"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "seq_browser_address",
+      "events": [
+        {
+          "type": "combo",
+          "keys": [
+            "CTRL",
+            "L"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 120
+        },
+        {
+          "type": "text",
+          "value": "https://example.com"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "seq_editing",
+      "events": [
+        {
+          "type": "text",
+          "value": "hello world"
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "CTRL",
+            "A"
+          ]
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "CTRL",
+            "C"
+          ]
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "CTRL",
+            "V"
+          ]
+        }
+      ]
+    }
+  ]
+}
