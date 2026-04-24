@@ -52,12 +52,14 @@ class QueryService:
         self.__blocked_hotkeys = self.__get_blocked_hotkeys()
         self.__blocked_pairs = self.__get_blocked_hotkey_string_pairs()
 
-    # Shutdown
+    
     def close(self) -> None:
+        """ Shut down database connection """
         self.conn.close()
 
-    # Ensure db structure is as expected
+
     def ensure_schema(self) -> None:
+        """ Ensures db structure is as expected """
         cur = self.conn.cursor()
 
         cur.execute("""
@@ -111,32 +113,32 @@ class QueryService:
 
         self.conn.commit()
 
-    # Convert hotkey to standardized string form to store in DB
     @staticmethod
     def normalize_hotkey(hotkey_text: str) -> str:
+        """ Convert hotkey to standardized string form to store in DB """
         parts = [p.strip().upper() for p in hotkey_text.split("+") if p.strip()]
         return "+".join(sorted(parts))
 
-    # Returns full list of blocked strings with accompanying ids from DB
     def __get_blocked_strings(self) -> List[BlockedString]:
+        """ Returns full list of blocked strings with accompanying ids from DB """
         rows = self.queries.get_blocked_strings(self.conn)
         return [BlockedString(row["string_id"], row["string"]) for row in rows]
     
-    # Refreshes blocked strings
     def refresh_blocked_strings(self) -> None:
+        """ Refreshes blocked strings """
         self.__blocked_strings = self.__get_blocked_strings
 
-    # Returns full list of blocked ids with accompanying ids from DB
     def __get_blocked_hotkeys(self) -> List[BlockedHotkey]:
+        """ Returns full list of blocked ids with accompanying ids from DB """
         rows = self.queries.get_blocked_hotkeys(self.conn)
         return [BlockedHotkey(row["hotkey_id"], row["hotkey"]) for row in rows]
     
-    # Refreshes blocked hotkeys
     def refresh_blocked_hotkeys(self) -> None:
+        """ Refreshes blocked hotkeys """
         self.__blocked_hotkeys = self.__get_blocked_hotkeys
 
-    # Returns full list of blocked hotkey-string pairs with accompanying ids from DB
     def __get_blocked_hotkey_string_pairs(self) -> List[BlockedPair]:
+        """ Returns full list of blocked hotkey-string pairs with accompanying ids from DB """
         rows = self.queries.get_blocked_hotkey_string_pairs(self.conn)
         return [
             BlockedPair(
@@ -149,50 +151,50 @@ class QueryService:
             for row in rows
         ]
     
-    # Refreshes blocked hotkeys-string pairs
     def refresh_blocked_pairs(self) -> None:
+        """ Refreshes blocked hotkeys-string pairs """
         self.__blocked_pairs = self.__get_blocked_hotkey_string_pairs
 
-    # Checks if given string is blocked
     def blocked_string_match(self, text_snapshot: str) -> Optional[BlockedString]:
+        """ Checks if given string is blocked """
         lowered = text_snapshot.lower()
         for item in self.__blocked_strings:
             if item.string.lower() in lowered:
                 return item
         return None
 
-    # Checks if given hotkey is blocked
     def blocked_hotkey_match(self, hotkey_text: str) -> Optional[BlockedHotkey]:
+        """ Checks if given hotkey is blocked """
         normalized = self.normalize_hotkey(hotkey_text)
         for item in self.__blocked_hotkeys:
             if self.normalize_hotkey(item.hotkey) == normalized:
                 return item
         return None
 
-    # Checks if given hotkey-string pair is blocked
     def blocked_pair_match(self, hotkey_id: int, string_id: int) -> Optional[BlockedPair]:
+        """ Checks if given hotkey-string pair is blocked """
         for item in self.__blocked_pairs:
             if item.hotkey_id == hotkey_id and item.string_id == string_id:
                 return item
         return None
 
-    # Adds speed detection log to DB
     def add_speed_detection(self, info: str, detected_at: str) -> None:
+        """ Adds speed detection log to DB """
         self.queries.add_speed_detection(self.conn, info=info, detected_at=detected_at)
         self.conn.commit()
 
-    # Adds hotkey blacklist detection log to DB
     def add_blacklist_detection_hotkey(self, hotkey_id: int, detected_at: str) -> None:
+        """ Adds hotkey blacklist detection log to DB """
         self.queries.add_blacklist_detection_hotkey(self.conn, hotkey_id=hotkey_id, detected_at=detected_at)
         self.conn.commit()
 
-    # Adds string blacklist detection log to DB
     def add_blacklist_detection_string(self, string_id: int, detected_at: str) -> None:
+        """ Adds string blacklist detection log to DB """
         self.queries.add_blacklist_detection_string(self.conn, string_id=string_id, detected_at=detected_at)
         self.conn.commit()
 
-    # Adds hotkey-string pair detection log to DB
     def add_blacklist_detection_pair(self, hotkey_string_combination_id: int, detected_at: str) -> None:
+        """ Adds hotkey-string pair detection log to DB """
         self.queries.add_blacklist_detection_pair(
             self.conn,
             hotkey_string_combination_id=hotkey_string_combination_id,
