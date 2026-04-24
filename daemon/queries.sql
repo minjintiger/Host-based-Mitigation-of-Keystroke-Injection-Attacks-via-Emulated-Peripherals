@@ -9,7 +9,7 @@ SELECT string_id, string
 FROM strings 
 WHERE blocked != 0;
 
--- name: add_string(string, blocked=false)!
+-- name: add_string(string, blocked)!
 -- Adds string to table, blocked set to false by default.  Overwrites if currently in DB.
 INSERT OR REPLACE INTO strings (string, blocked) 
 VALUES (:string, :blocked);
@@ -49,7 +49,7 @@ SELECT hotkey_id, hotkey
 FROM hotkeys 
 WHERE blocked != 0;
 
--- name: add_hotkey(hotkey, blocked=false)!
+-- name: add_hotkey(hotkey, blocked)!
 -- Adds hotkey <String> to table, blocked set to false by default.  Overwrites if currently in DB.
 REPLACE INTO hotkeys (hotkey, blocked) 
 VALUES (:hotkey, :blocked);
