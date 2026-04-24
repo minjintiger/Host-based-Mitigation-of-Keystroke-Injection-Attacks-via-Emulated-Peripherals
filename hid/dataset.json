@@ -1,8 +1,8 @@
 {
   "meta": {
-    "name": "merged_hid_event_dataset",
-    "description": "Merged dataset combining word-boundary-safe events and explicit daemon test sequences.",
-    "format_version": 1
+    "name": "dataset",
+    "description": "dataset combining word-boundary-safe events and explicit daemon test sequences.",
+    "format_version": 1,
   },
   "sequences": [
     {
@@ -1932,47 +1932,1025 @@
       "id": "seq_windows_hotkeys_all",
       "label": "windows_hotkeys",
       "events": [
-        {"type": "combo", "keys": ["GUI", "R"]},
-        {"type": "delay", "ms": 300},
-    
-        {"type": "combo", "keys": ["GUI", "E"]},
-        {"type": "delay", "ms": 300},
-    
-        {"type": "combo", "keys": ["GUI", "D"]},
-        {"type": "delay", "ms": 300},
-    
-        {"type": "combo", "keys": ["GUI", "L"]},
-        {"type": "delay", "ms": 300},
-    
-        {"type": "combo", "keys": ["GUI", "I"]},
-        {"type": "delay", "ms": 300},
-    
-        {"type": "combo", "keys": ["GUI", "TAB"]},
-        {"type": "delay", "ms": 300},
-    
-        {"type": "combo", "keys": ["ALT", "TAB"]},
-        {"type": "delay", "ms": 300},
-    
-        {"type": "combo", "keys": ["ALT", "F4"]},
-        {"type": "delay", "ms": 300},
-    
-        {"type": "combo", "keys": ["CTRL", "SHIFT", "ESC"]},
-        {"type": "delay", "ms": 300},
-    
-        {"type": "combo", "keys": ["CTRL", "ALT", "DELETE"]},
-        {"type": "delay", "ms": 300},
-    
-        {"type": "combo", "keys": ["GUI", "UP_ARROW"]},
-        {"type": "delay", "ms": 300},
-    
-        {"type": "combo", "keys": ["GUI", "DOWN_ARROW"]},
-        {"type": "delay", "ms": 300},
-    
-        {"type": "combo", "keys": ["GUI", "LEFT_ARROW"]},
-        {"type": "delay", "ms": 300},
-    
-        {"type": "combo", "keys": ["GUI", "RIGHT_ARROW"]},
-        {"type": "delay", "ms": 300}
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "R"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "E"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "D"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "L"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "I"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "TAB"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "ALT",
+            "TAB"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "ALT",
+            "F4"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "CTRL",
+            "SHIFT",
+            "ESC"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "CTRL",
+            "ALT",
+            "DELETE"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "UP_ARROW"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "DOWN_ARROW"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "LEFT_ARROW"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "RIGHT_ARROW"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        }
+      ]
+    },
+    {
+      "id": "benign_text_words_02",
+      "label": "benign_normal_text_extra",
+      "category": "benign_text",
+      "expected_detection": "none",
+      "description": "Extra benign normal text with clear word boundaries.",
+      "events": [
+        {
+          "type": "text",
+          "value": "daily"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "project"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "meeting"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "update"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "summary"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "benign_text_long_02",
+      "label": "long_multi_word_sequence_extra",
+      "category": "long_text",
+      "expected_detection": "none",
+      "description": "Long benign multi-line text to test normal text behavior.",
+      "events": [
+        {
+          "type": "text",
+          "value": "this is another normal typing sequence for baseline comparison"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "the goal is to check whether normal content causes false positives"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "nothing in this sequence should match the suspicious blacklist rules"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "benign_shortcut_office_01",
+      "label": "benign_office_shortcuts",
+      "category": "benign_shortcut",
+      "expected_detection": "none",
+      "description": "Common office/editor shortcuts that should normally be benign.",
+      "events": [
+        {
+          "type": "text",
+          "value": "draft report text"
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "CTRL",
+            "A"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 250
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "CTRL",
+            "C"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 250
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "CTRL",
+            "V"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 250
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "CTRL",
+            "S"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 250
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "benign_shortcut_browser_01",
+      "label": "benign_browser_shortcuts",
+      "category": "benign_shortcut",
+      "expected_detection": "none",
+      "description": "Common browser shortcuts and URL text.",
+      "events": [
+        {
+          "type": "combo",
+          "keys": [
+            "CTRL",
+            "L"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "text",
+          "value": "https://example.com"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "CTRL",
+            "R"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "ALT",
+            "LEFT"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        }
+      ]
+    },
+    {
+      "id": "suspicious_text_windows_admin_02",
+      "label": "suspicious_windows_command_keywords_extra",
+      "category": "suspicious_text",
+      "expected_detection": "string_blacklist",
+      "description": "Windows command-like keywords typed as inert text for blacklist testing.",
+      "events": [
+        {
+          "type": "text",
+          "value": "cmd"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "powershell"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "whoami"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "ipconfig"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "taskmgr"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "regedit"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "suspicious_text_linux_admin_02",
+      "label": "suspicious_linux_command_keywords_extra",
+      "category": "suspicious_text",
+      "expected_detection": "string_blacklist",
+      "description": "Linux command-like keywords typed as inert text for blacklist testing.",
+      "events": [
+        {
+          "type": "text",
+          "value": "sudo"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "chmod"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "curl"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "wget"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "ssh"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "nc"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "suspicious_text_mixed_keywords_02",
+      "label": "mixed_suspicious_keywords_extra",
+      "category": "suspicious_text",
+      "expected_detection": "string_blacklist",
+      "description": "General suspicious command-like words for blacklist matching.",
+      "events": [
+        {
+          "type": "text",
+          "value": "terminal admin server shell script payload"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "download execute hidden background process"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "hotkey_string_windows_run_cmd_02",
+      "label": "hotkey_string_pair_gui_r_cmd_extra",
+      "category": "hotkey_string_pair",
+      "expected_detection": "hotkey_string_pair",
+      "description": "GUI+R followed by command-like text for pair detection.",
+      "events": [
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "R"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "text",
+          "value": "cmd"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "hotkey_string_windows_run_powershell_01",
+      "label": "hotkey_string_pair_gui_r_powershell",
+      "category": "hotkey_string_pair",
+      "expected_detection": "hotkey_string_pair",
+      "description": "GUI+R followed by powershell text for pair detection.",
+      "events": [
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "R"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "text",
+          "value": "powershell"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "hotkey_string_browser_url_02",
+      "label": "hotkey_string_pair_ctrl_l_url_extra",
+      "category": "hotkey_string_pair",
+      "expected_detection": "hotkey_string_pair",
+      "description": "CTRL+L followed by URL-like text.",
+      "events": [
+        {
+          "type": "combo",
+          "keys": [
+            "CTRL",
+            "L"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "text",
+          "value": "https://example.com"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "hotkey_only_sensitive_02",
+      "label": "hotkey_only_sensitive_extra",
+      "category": "hotkey_only",
+      "expected_detection": "hotkey_blacklist",
+      "description": "Potentially sensitive hotkeys without follow-up text.",
+      "events": [
+        {
+          "type": "combo",
+          "keys": [
+            "CTRL",
+            "SHIFT",
+            "ESC"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "R"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "X"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        }
+      ]
+    },
+    {
+      "id": "negative_control_clean_words_02",
+      "label": "negative_control_clean_words_extra",
+      "category": "negative_control",
+      "expected_detection": "none",
+      "description": "Clean words that should not match blacklist rules.",
+      "events": [
+        {
+          "type": "text",
+          "value": "alpha"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "beta"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "gamma"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "delta"
+        },
+        {
+          "type": "key",
+          "key": "SPACE"
+        },
+        {
+          "type": "text",
+          "value": "omega"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "mixed_behavior_02",
+      "label": "mixed_benign_and_suspicious_behavior_extra",
+      "category": "mixed_behavior",
+      "expected_detection": "blacklist_possible",
+      "description": "Mixed benign and suspicious behavior for end-to-end daemon behavior.",
+      "events": [
+        {
+          "type": "text",
+          "value": "normal project update"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "ALT",
+            "TAB"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 250
+        },
+        {
+          "type": "combo",
+          "keys": [
+            "GUI",
+            "R"
+          ]
+        },
+        {
+          "type": "delay",
+          "ms": 300
+        },
+        {
+          "type": "text",
+          "value": "cmd"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "meeting notes saved"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "false_positive_keyword_overlap_01",
+      "label": "false_positive_command_menu_sentence",
+      "category": "false_positive_keyword_overlap",
+      "expected_label": "benign",
+      "expected_detection": "none_or_false_positive",
+      "description": "Benign sentence containing the word command. Useful for testing overly broad blacklist rules.",
+      "events": [
+        {
+          "type": "text",
+          "value": "I opened the command menu in the editor"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "false_positive_keyword_overlap_02",
+      "label": "false_positive_admin_server_sentence",
+      "category": "false_positive_keyword_overlap",
+      "expected_label": "benign",
+      "expected_detection": "none_or_false_positive",
+      "description": "Benign work-related sentence containing admin and server.",
+      "events": [
+        {
+          "type": "text",
+          "value": "the admin reviewed the server report"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "false_positive_keyword_overlap_03",
+      "label": "false_positive_download_sentence",
+      "category": "false_positive_keyword_overlap",
+      "expected_label": "benign",
+      "expected_detection": "none_or_false_positive",
+      "description": "Benign sentence containing download.",
+      "events": [
+        {
+          "type": "text",
+          "value": "please download the meeting notes"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "false_positive_keyword_overlap_04",
+      "label": "false_positive_terminal_documentation_sentence",
+      "category": "false_positive_keyword_overlap",
+      "expected_label": "benign",
+      "expected_detection": "none_or_false_positive",
+      "description": "Benign documentation sentence containing terminal.",
+      "events": [
+        {
+          "type": "text",
+          "value": "open terminal section in the documentation"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "false_positive_keyword_overlap_05",
+      "label": "false_positive_copy_paste_summary_sentence",
+      "category": "false_positive_keyword_overlap",
+      "expected_label": "benign",
+      "expected_detection": "none_or_false_positive",
+      "description": "Benign editing sentence that should not be considered malicious by itself.",
+      "events": [
+        {
+          "type": "text",
+          "value": "copy and paste the project summary"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "false_positive_keyword_overlap_06",
+      "label": "false_positive_combined_normal_work_sentences",
+      "category": "false_positive_keyword_overlap",
+      "expected_label": "benign",
+      "expected_detection": "none_or_false_positive",
+      "description": "Multi-line benign text with several suspicious-looking keywords in normal context.",
+      "events": [
+        {
+          "type": "text",
+          "value": "the admin team updated the server checklist"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "the command menu is part of the editor documentation"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "please download the report before the meeting"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "borderline_evasive_text_01",
+      "label": "borderline_power_shell_split",
+      "category": "borderline_evasive_text",
+      "expected_label": "malicious_like_evasive",
+      "expected_detection": "may_miss",
+      "description": "Powershell-like text split into two words. May bypass exact substring blacklist for powershell.",
+      "events": [
+        {
+          "type": "text",
+          "value": "power shell"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "borderline_evasive_text_02",
+      "label": "borderline_p0wershell_leetspeak",
+      "category": "borderline_evasive_text",
+      "expected_label": "malicious_like_evasive",
+      "expected_detection": "may_miss",
+      "description": "Powershell-like text using zero instead of o. May bypass simple blacklist matching.",
+      "events": [
+        {
+          "type": "text",
+          "value": "p0wershell"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "borderline_evasive_text_03",
+      "label": "borderline_cmd_spaced_letters",
+      "category": "borderline_evasive_text",
+      "expected_label": "malicious_like_evasive",
+      "expected_detection": "may_miss",
+      "description": "cmd split by spaces. May bypass direct substring blacklist for cmd.",
+      "events": [
+        {
+          "type": "text",
+          "value": "c m d"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "borderline_evasive_text_04",
+      "label": "borderline_whoami_spaced_words",
+      "category": "borderline_evasive_text",
+      "expected_label": "malicious_like_evasive",
+      "expected_detection": "may_miss",
+      "description": "whoami split into natural words. Useful for simple blacklist limitation testing.",
+      "events": [
+        {
+          "type": "text",
+          "value": "who am i"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "borderline_evasive_text_05",
+      "label": "borderline_ipconfig_spaced",
+      "category": "borderline_evasive_text",
+      "expected_label": "malicious_like_evasive",
+      "expected_detection": "may_miss",
+      "description": "ipconfig split with spaces. May bypass exact substring blacklist for ipconfig.",
+      "events": [
+        {
+          "type": "text",
+          "value": "i p config"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "borderline_evasive_text_06",
+      "label": "borderline_terminal_shortcut_sentence",
+      "category": "borderline_evasive_text",
+      "expected_label": "malicious_like_evasive",
+      "expected_detection": "none_or_false_positive",
+      "description": "Ambiguous sentence that sounds suspicious but may be benign depending on context.",
+      "events": [
+        {
+          "type": "text",
+          "value": "terminal opened by shortcut"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "borderline_evasive_text_07",
+      "label": "borderline_run_dialogue_admin_sentence",
+      "category": "borderline_evasive_text",
+      "expected_label": "malicious_like_evasive",
+      "expected_detection": "none_or_false_positive",
+      "description": "Ambiguous run-dialogue sentence containing admin but not a direct command.",
+      "events": [
+        {
+          "type": "text",
+          "value": "run dialogue opened then typed admin"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
+      ]
+    },
+    {
+      "id": "borderline_evasive_text_08",
+      "label": "borderline_combined_evasive_patterns",
+      "category": "borderline_evasive_text",
+      "expected_label": "malicious_like_evasive",
+      "expected_detection": "may_miss",
+      "description": "Multi-line combined evasive variants for checking simple substring matching limits.",
+      "events": [
+        {
+          "type": "text",
+          "value": "power shell"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "p0wershell"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "c m d"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "who am i"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        },
+        {
+          "type": "text",
+          "value": "i p config"
+        },
+        {
+          "type": "key",
+          "key": "ENTER"
+        }
       ]
     }
   ]
