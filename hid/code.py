@@ -2,6 +2,7 @@ import time
 import json
 import os
 import usb_hid
+import random
 
 from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keycode import Keycode
@@ -29,6 +30,16 @@ COMBO_HOLD_MS = 50
 ENABLE_SPEED_SWEEP = True
 SPEED_PROFILES_MS = [240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0]
 DEFAULT_FIXED_DELAY_MS = 200   # used if ENABLE_SPEED_SWEEP = False
+
+# human alike typing parameters
+ENABLE_HUMAN_LIKE_RANDOM_AFTER_SWEEP = True
+HUMAN_LIKE_RUNS = 3
+
+HUMAN_MIN_DELAY_MS = 80
+HUMAN_MAX_DELAY_MS = 320
+HUMAN_PAUSE_CHANCE = 0.08
+HUMAN_PAUSE_MIN_MS = 300
+HUMAN_PAUSE_MAX_MS = 1200
 
 LOG_PATH = "/result_log.csv"
 
@@ -153,11 +164,21 @@ def log_event(event, profile_ms, sequence_id="", note=""):
     except Exception:
         pass
 
-def type_text(text, char_delay_ms):
+def type_text(text, char_delay_ms, human_like=False):
     for ch in text:
         layout.write(ch)
-        if char_delay_ms > 0:
-            sleep_ms(char_delay_ms)
+
+        if human_like:
+            delay_ms = random.randint(HUMAN_MIN_DELAY_MS, HUMAN_MAX_DELAY_MS)
+            sleep_ms(delay_ms)
+
+            if ch == " " or random.random() < HUMAN_PAUSE_CHANCE:
+                pause_ms = random.randint(HUMAN_PAUSE_MIN_MS, HUMAN_PAUSE_MAX_MS)
+                sleep_ms(pause_ms)
+
+        else:
+            if char_delay_ms > 0:
+                sleep_ms(char_delay_ms)
 
 def send_key(key_name):
     kbd.send(get_keycode(key_name))
@@ -171,11 +192,11 @@ def send_combo(keys):
 # ----------------------------
 # Event execution
 # ----------------------------
-def run_event(event, fixed_delay_ms):
+def run_event(event, fixed_delay_ms, human_like=False):
     etype = event.get("type", "").lower()
 
     if etype == "text":
-        type_text(event.get("value", ""), fixed_delay_ms)
+        type_text(event.get("value", ""), fixed_delay_ms, human_like)
 
     elif etype == "key":
         send_key(event["key"])
@@ -214,21 +235,24 @@ def load_sequences(path):
 # ----------------------------
 # Sequence / profile execution
 # ----------------------------
-def run_sequence(sequence, fixed_delay_ms):
+def run_sequence(sequence, fixed_delay_ms, human_like=False):
     seq_id = sequence.get("id", "unknown")
     events = sequence.get("events", [])
 
     log_event("START_SEQUENCE", fixed_delay_ms, seq_id, "begin")
     for event in events:
-        run_event(event, fixed_delay_ms)
+        run_event(event, fixed_delay_ms, human_like)
     log_event("END_SEQUENCE", fixed_delay_ms, seq_id, "done")
 
-def run_single_profile(sequences, profile_ms):
-    log_event("START_PROFILE", profile_ms, "", "profile begin")
+def run_single_profile(sequences, profile_ms, human_like=False):
+    note = "human_like_random" if human_like else "fixed_profile"
+    log_event("START_PROFILE", profile_ms, "", note)
+
     for sequence in sequences:
-        run_sequence(sequence, profile_ms)
+        run_sequence(sequence, profile_ms, human_like)
         time.sleep(INTER_SEQUENCE_DELAY_S)
-    log_event("END_PROFILE", profile_ms, "", "profile done")
+
+    log_event("END_PROFILE", profile_ms, "", note)
 
 # ----------------------------
 # Main
@@ -240,19 +264,15 @@ def main():
 
     if ENABLE_SPEED_SWEEP:
         for profile_ms in SPEED_PROFILES_MS:
-            run_single_profile(sequences, profile_ms)
+            run_single_profile(sequences, profile_ms, human_like=False)
             time.sleep(INTER_PROFILE_DELAY_S)
+
+        if ENABLE_HUMAN_LIKE_RANDOM_AFTER_SWEEP:
+            for i in range(HUMAN_LIKE_RUNS):
+                run_single_profile(sequences, -100, human_like=True)
+                time.sleep(INTER_PROFILE_DELAY_S)
+
     else:
-        run_single_profile(sequences, DEFAULT_FIXED_DELAY_MS)
+        run_single_profile(sequences, DEFAULT_FIXED_DELAY_MS, human_like=False)
 
     log_event("DONE", -1, "", "all runs finished")
-
-try:
-    main()
-except Exception as e:
-    try:
-        log_event("ERROR", -1, "", str(e))
-    except Exception:
-        pass
-    while True:
-        time.sleep(1)
