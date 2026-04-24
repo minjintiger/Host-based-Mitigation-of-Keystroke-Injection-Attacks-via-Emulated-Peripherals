@@ -14,6 +14,7 @@ from __future__ import annotations
 import argparse
 import logging
 import time
+import statistics
 from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -34,6 +35,12 @@ HUMAN_THRESHOLD_MS = 240.0
 DETECTION_COOLDOWN_S = 1.5
 HOTKEY_STRING_WINDOW_S = 4.0
 WORD_DELIMITERS = {" ", "\n", "\t"}
+
+# time consistency detection parameters
+AVG_DELAY_HISTORY_SIZE = 8
+CONSISTENCY_WINDOW_SIZE = 4
+CONSISTENCY_STDDEV_THRESHOLD_MS = 8.0
+CONSISTENCY_MIN_AVG_DELAY_MS = 40.0
 
 
 @dataclass
@@ -60,6 +67,7 @@ class KeystrokeDaemon:
         self.current_word_last_ts: Optional[float] = None
 
         self.recent_words: Deque[CompletedWord] = deque(maxlen=WORD_WINDOW_SIZE)
+        self.avg_delay_history: Deque[float] = deque(maxlen=AVG_DELAY_HISTORY_SIZE)
         self.text_history: Deque[str] = deque(maxlen=400)
         self.recent_hotkey: Optional[RecentHotkeyEvent] = None
 
@@ -189,6 +197,23 @@ class KeystrokeDaemon:
             return None
         return total_ms / total_chars
 
+    def timing_consistency_suspicious(self) -> Optional[tuple[float, float]]:
+        if len(self.avg_delay_history) < CONSISTENCY_WINDOW_SIZE:
+            return None
+
+        recent = list(self.avg_delay_history)[-CONSISTENCY_WINDOW_SIZE:]
+
+        mean_ms = sum(recent) / len(recent)
+        stddev_ms = statistics.pstdev(recent)
+
+        if mean_ms < CONSISTENCY_MIN_AVG_DELAY_MS:
+            return None
+
+        if stddev_ms < CONSISTENCY_STDDEV_THRESHOLD_MS:
+            return mean_ms, stddev_ms
+
+        return None
+
     def current_text_snapshot(self) -> str:
         return "".join(self.text_history) + "".join(self.current_word_chars)
 
@@ -215,6 +240,22 @@ class KeystrokeDaemon:
             return
         self.q.add_speed_detection(info=info, detected_at=self.utc_now())
         logging.info("SPEED DETECTION | %s", info)
+    
+    def log_timing_consistency_detection(self, mean_ms: float, stddev_ms: float) -> None:
+        info = (
+            f"timing_consistency mean_avg_char_delay_ms={mean_ms:.2f} "
+            f"stddev_ms={stddev_ms:.2f} "
+            f"window={CONSISTENCY_WINDOW_SIZE} "
+            f"threshold_stddev_ms={CONSISTENCY_STDDEV_THRESHOLD_MS:.2f}"
+        )
+
+        signature = f"timing_consistency|{mean_ms:.2f}|{stddev_ms:.2f}"
+
+        if self.should_suppress(signature):
+            return
+
+        self.q.add_speed_detection(info=info, detected_at=self.utc_now())
+        logging.info("TIMING CONSISTENCY DETECTION | %s", info)
 
     def log_hotkey_detection(self, hotkey_id: int, hotkey_text: str) -> None:
         signature = f"hotkey|{hotkey_id}|{hotkey_text}"
@@ -246,8 +287,16 @@ class KeystrokeDaemon:
         self.update_word_buffer(key)
 
         avg_ms = self.average_char_delay_ms()
-        if avg_ms is not None and avg_ms < HUMAN_THRESHOLD_MS:
-            self.log_speed_detection(avg_ms)
+        if avg_ms is not None:
+            self.avg_delay_history.append(avg_ms)
+
+            if avg_ms < HUMAN_THRESHOLD_MS:
+                self.log_speed_detection(avg_ms)
+
+            consistency_result = self.timing_consistency_suspicious()
+            if consistency_result is not None:
+                mean_ms, stddev_ms = consistency_result
+                self.log_timing_consistency_detection(mean_ms, stddev_ms)
 
         hotkey_text = self.build_hotkey(key)
         if hotkey_text is not None:
