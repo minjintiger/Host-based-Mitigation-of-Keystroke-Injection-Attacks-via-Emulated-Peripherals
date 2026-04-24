@@ -39,7 +39,13 @@ WORD_DELIMITERS = {" ", "\n", "\t"}
 # time consistency detection parameters
 AVG_DELAY_HISTORY_SIZE = 8
 CONSISTENCY_WINDOW_SIZE = 4
-CONSISTENCY_STDDEV_THRESHOLD_MS = 8.0
+
+# this is starting point for stddev threshold
+# this number will decide the rate of false positives
+# if the stddev of recent average char delays is below this threshold, it may indicate non-human typing patterns
+CONSISTENCY_STDDEV_THRESHOLD_MS = 8.0 # could be tuned ex) 5, 10, 15 
+
+
 CONSISTENCY_MIN_AVG_DELAY_MS = 40.0
 
 
