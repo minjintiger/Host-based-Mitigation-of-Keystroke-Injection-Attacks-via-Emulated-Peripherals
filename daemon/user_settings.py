@@ -10,6 +10,21 @@ from queries import QueryService as QS
 import streamlit as st
 from enum import StrEnum
 
+
+
+def close_db_service(q_service: QueryService):
+    q_service.close()
+    print("DB closed.")
+
+# returns QueryService object
+@st.cache_resource(on_release=close_db, scope="session")
+def open_db_service():
+    print("Opening DB.")
+    from queries import QueryService
+    return QueryService
+
+
+# Corresponds to tables within database.
 class Table(StrEnum):
     STRINGS = "String Blacklist"
     HOTKEY = "Hotkey Blacklist"
