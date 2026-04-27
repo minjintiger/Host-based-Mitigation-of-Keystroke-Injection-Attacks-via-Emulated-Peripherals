@@ -69,14 +69,14 @@ class QueryService:
         self.ensure_schema()
 
         # Store all strings, hotkeys, and pairs in memory to avoid expensive database queries whenever comparison is needed
-        self.__strings = self.__get_strings()
-        self.__hotkeys = self.__get_hotkeys()
-        self.__pairs = self.__get_hotkey_string_pairs()
+        self.strings = self.__get_strings()
+        self.hotkeys = self.__get_hotkeys()
+        self.pairs = self.__get_hotkey_string_pairs()
 
         # Store blocked strings, hotkeys, and pairs in memory to avoid expensive database queries whenever comparison is needed
-        self.__blocked_strings = self.__get_blocked_strings()
-        self.__blocked_hotkeys = self.__get_blocked_hotkeys()
-        self.__blocked_pairs = self.__get_blocked_hotkey_string_pairs()
+        self.blocked_strings = self.__get_blocked_strings()
+        self.blocked_hotkeys = self.__get_blocked_hotkeys()
+        self.blocked_pairs = self.__get_blocked_hotkey_string_pairs()
 
     
     def close(self) -> None:
