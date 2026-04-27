@@ -69,14 +69,14 @@ class QueryService:
         self.ensure_schema()
 
         # Store all strings, hotkeys, and pairs in memory to avoid expensive database queries whenever comparison is needed
-        self.strings = self.__get_strings()
-        self.hotkeys = self.__get_hotkeys()
-        self.pairs = self.__get_hotkey_string_pairs()
+        self.__strings = self.__get_strings()
+        self.__hotkeys = self.__get_hotkeys()
+        self.__pairs = self.__get_hotkey_string_pairs()
 
         # Store blocked strings, hotkeys, and pairs in memory to avoid expensive database queries whenever comparison is needed
-        self.blocked_strings = self.__get_blocked_strings()
-        self.blocked_hotkeys = self.__get_blocked_hotkeys()
-        self.blocked_pairs = self.__get_blocked_hotkey_string_pairs()
+        self.__blocked_strings = self.__get_blocked_strings()
+        self.__blocked_hotkeys = self.__get_blocked_hotkeys()
+        self.__blocked_pairs = self.__get_blocked_hotkey_string_pairs()
 
     
     def close(self) -> None:
@@ -145,6 +145,8 @@ class QueryService:
         parts = [p.strip().upper() for p in hotkey_text.split("+") if p.strip()]
         return "+".join(sorted(parts))
 
+
+
     def __get_blocked_strings(self) -> List[BlockedString]:
         """ Returns full list of blocked strings with accompanying ids from DB """
         rows = self.queries.get_blocked_strings(self.conn)
@@ -153,6 +155,11 @@ class QueryService:
     def refresh_blocked_strings(self) -> None:
         """ Refreshes blocked strings """
         self.__blocked_strings = self.__get_blocked_strings
+
+    def get_blocked_strings(self) -> List[BlockedString]:
+        """ Returns list of blocked strings """
+        return self.__blocked_strings
+
 
     def __get_strings(self) -> List[AnyString]:
         """ Returns full list of strings with accompanying ids from DB """
@@ -163,6 +170,12 @@ class QueryService:
         """ Refreshes blocked strings """
         self.__strings = self.__get_strings
 
+    def get_strings(self) -> List[AnyString]:
+        """ Returns list of strings """
+        return self.__strings
+
+
+
     def __get_blocked_hotkeys(self) -> List[BlockedHotkey]:
         """ Returns full list of blocked hotkeys with accompanying ids from DB """
         rows = self.queries.get_blocked_hotkeys(self.conn)
@@ -172,6 +185,11 @@ class QueryService:
         """ Refreshes blocked hotkeys """
         self.__blocked_hotkeys = self.__get_blocked_hotkeys
 
+    def get_blocked_hotkeys(self) -> List[BlockedHotkey]:
+        """ Returns list of blocked hotkeys """
+        return self.__blocked_hotkeys
+
+
     def __get_hotkeys(self) -> List[AnyHotkey]:
         """ Returns full list of hotkeys with accompanying ids from DB """
         rows = self.queries.get_hotkeys(self.conn)
@@ -180,6 +198,12 @@ class QueryService:
     def refresh_hotkeys(self) -> None:
         """ Refreshes hotkeys """
         self.__hotkeys = self.__get_hotkeys
+
+    def get_hotkeys(self) -> List[AnyHotkey]:
+        """ Returns list of blocked hotkeys """
+        return self.__hotkeys
+
+
 
     def __get_blocked_hotkey_string_pairs(self) -> List[BlockedPair]:
         """ Returns full list of blocked hotkey-string pairs with accompanying ids from DB """
@@ -199,6 +223,7 @@ class QueryService:
         """ Refreshes blocked hotkeys-string pairs """
         self.__blocked_pairs = self.__get_blocked_hotkey_string_pairs
 
+
     def __get_hotkey_string_pairs(self) -> List[AnyPair]:
         """ Returns full list of hotkey-string pairs with accompanying ids from DB """
         rows = self.queries.get_hotkey_string_pairs(self.conn)
@@ -217,6 +242,8 @@ class QueryService:
     def refresh_pairs(self) -> None:
         """ Refreshes hotkeys-string pairs """
         self.__pairs = self.__get_hotkey_string_pairs
+
+
 
     def blocked_string_match(self, text_snapshot: str) -> Optional[BlockedString]:
         """ Checks if given string is blocked """
