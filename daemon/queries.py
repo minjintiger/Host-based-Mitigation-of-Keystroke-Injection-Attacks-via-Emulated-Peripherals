@@ -19,11 +19,23 @@ class BlockedString:
     string_id: int
     string: str
 
+@dataclass(frozen=True)
+class AnyString:
+    string_id: int
+    string: str
+    blocked: bool
+
 
 @dataclass(frozen=True)
 class BlockedHotkey:
     hotkey_id: int
     hotkey: str
+
+@dataclass(frozen=True)
+class AnyHotkey:
+    hotkey_id: int
+    hotkey: str
+    blocked: bool
 
 
 @dataclass(frozen=True)
@@ -33,6 +45,15 @@ class BlockedPair:
     hotkey: str
     string_id: int
     string: str
+
+@dataclass(frozen=True)
+class AnyPair:
+    hotkey_string_combination_id: int
+    hotkey_id: int
+    hotkey: str
+    string_id: int
+    string: str
+    blocked: bool
 
 
 class QueryService:
@@ -46,6 +67,11 @@ class QueryService:
         self.conn.row_factory = sqlite3.Row
         self.queries = aiosql.from_path(self.sql_path, "sqlite3")
         self.ensure_schema()
+
+        # Store all strings, hotkeys, and pairs in memory to avoid expensive database queries whenever comparison is needed
+        self.__strings = self.__get_strings()
+        self.__hotkeys = self.__get_hotkeys()
+        self.__pairs = self.__get_hotkey_string_pairs()
 
         # Store blocked strings, hotkeys, and pairs in memory to avoid expensive database queries whenever comparison is needed
         self.__blocked_strings = self.__get_blocked_strings()
@@ -128,14 +154,32 @@ class QueryService:
         """ Refreshes blocked strings """
         self.__blocked_strings = self.__get_blocked_strings
 
+    def __get_strings(self) -> List[AnyString]:
+        """ Returns full list of strings with accompanying ids from DB """
+        rows = self.queries.get_strings(self.conn)
+        return [AnyString(row["string_id"], row["string"], row["blocked"]) for row in rows]
+    
+    def refresh_strings(self) -> None:
+        """ Refreshes blocked strings """
+        self.__strings = self.__get_strings
+
     def __get_blocked_hotkeys(self) -> List[BlockedHotkey]:
-        """ Returns full list of blocked ids with accompanying ids from DB """
+        """ Returns full list of blocked hotkeys with accompanying ids from DB """
         rows = self.queries.get_blocked_hotkeys(self.conn)
         return [BlockedHotkey(row["hotkey_id"], row["hotkey"]) for row in rows]
     
     def refresh_blocked_hotkeys(self) -> None:
         """ Refreshes blocked hotkeys """
         self.__blocked_hotkeys = self.__get_blocked_hotkeys
+
+    def __get_hotkeys(self) -> List[AnyHotkey]:
+        """ Returns full list of hotkeys with accompanying ids from DB """
+        rows = self.queries.get_hotkeys(self.conn)
+        return [AnyHotkey(row["hotkey_id"], row["hotkey"], row["blocked"]) for row in rows]
+    
+    def refresh_hotkeys(self) -> None:
+        """ Refreshes hotkeys """
+        self.__hotkeys = self.__get_hotkeys
 
     def __get_blocked_hotkey_string_pairs(self) -> List[BlockedPair]:
         """ Returns full list of blocked hotkey-string pairs with accompanying ids from DB """
@@ -154,6 +198,25 @@ class QueryService:
     def refresh_blocked_pairs(self) -> None:
         """ Refreshes blocked hotkeys-string pairs """
         self.__blocked_pairs = self.__get_blocked_hotkey_string_pairs
+
+    def __get_hotkey_string_pairs(self) -> List[AnyPair]:
+        """ Returns full list of hotkey-string pairs with accompanying ids from DB """
+        rows = self.queries.get_hotkey_string_pairs(self.conn)
+        return [
+            AnyPair(
+                hotkey_string_combination_id=row["hotkey_string_combination_id"],
+                hotkey_id=row["hotkey_id"],
+                hotkey=self.normalize_hotkey(row["hotkey"]),
+                string_id=row["string_id"],
+                string=row["string"],
+                blocked=row["blocked"]
+            )
+            for row in rows
+        ]
+    
+    def refresh_pairs(self) -> None:
+        """ Refreshes hotkeys-string pairs """
+        self.__pairs = self.__get_hotkey_string_pairs
 
     def blocked_string_match(self, text_snapshot: str) -> Optional[BlockedString]:
         """ Checks if given string is blocked """
