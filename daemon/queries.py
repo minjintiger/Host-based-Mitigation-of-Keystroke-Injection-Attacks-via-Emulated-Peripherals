@@ -157,11 +157,27 @@ class QueryService:
     
     def refresh_blocked_strings(self) -> None:
         """ Refreshes blocked strings """
-        self.__blocked_strings = self.__get_blocked_strings
+        self.__blocked_strings = self.__get_blocked_strings()
 
     def get_blocked_strings(self) -> List[BlockedString]:
         """ Returns list of blocked strings """
         return self.__blocked_strings
+
+    def add_string(self, string: str, blocked: bool = False) -> None:
+        """ Add new string to blacklist, blocked defaults to false if not given """
+        if not string or not string.strip():
+            return
+        self.queries.add_string(self.conn, string=string, blocked=blocked)
+        self.conn.commit()
+        self.refresh_strings()
+
+    def remove_string(self, string: str) -> None:
+        """ Removes given string from DB """
+        if not string or not string.strip():
+            return
+        self.queries.remove_string_by_string(self.conn, string=string)
+        self.conn.commit()
+        self.refresh_strings()
 
 
     def __get_strings(self) -> List[AnyString]:
@@ -171,7 +187,7 @@ class QueryService:
     
     def refresh_strings(self) -> None:
         """ Refreshes blocked strings """
-        self.__strings = self.__get_strings
+        self.__strings = self.__get_strings()
 
     def get_strings(self) -> List[AnyString]:
         """ Returns list of strings """
@@ -186,7 +202,7 @@ class QueryService:
     
     def refresh_blocked_hotkeys(self) -> None:
         """ Refreshes blocked hotkeys """
-        self.__blocked_hotkeys = self.__get_blocked_hotkeys
+        self.__blocked_hotkeys = self.__get_blocked_hotkeys()
 
     def get_blocked_hotkeys(self) -> List[BlockedHotkey]:
         """ Returns list of blocked hotkeys """
@@ -200,7 +216,7 @@ class QueryService:
     
     def refresh_hotkeys(self) -> None:
         """ Refreshes hotkeys """
-        self.__hotkeys = self.__get_hotkeys
+        self.__hotkeys = self.__get_hotkeys()
 
     def get_hotkeys(self) -> List[AnyHotkey]:
         """ Returns list of blocked hotkeys """
@@ -224,7 +240,7 @@ class QueryService:
     
     def refresh_blocked_pairs(self) -> None:
         """ Refreshes blocked hotkeys-string pairs """
-        self.__blocked_pairs = self.__get_blocked_hotkey_string_pairs
+        self.__blocked_pairs = self.__get_blocked_hotkey_string_pairs()
 
 
     def __get_hotkey_string_pairs(self) -> List[AnyPair]:
@@ -244,7 +260,7 @@ class QueryService:
     
     def refresh_pairs(self) -> None:
         """ Refreshes hotkeys-string pairs """
-        self.__pairs = self.__get_hotkey_string_pairs
+        self.__pairs = self.__get_hotkey_string_pairs()
 
 
 
