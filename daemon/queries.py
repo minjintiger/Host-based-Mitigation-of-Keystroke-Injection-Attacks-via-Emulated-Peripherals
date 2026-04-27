@@ -60,8 +60,11 @@ class QueryService:
     def __init__(self, db_path: str = "keyDB.sqlite3", sql_path: Optional[str] = None) -> None:
         self.db_path = str(Path(db_path).expanduser().resolve())
         if sql_path is None:
-            sql_path = str(Path(__file__).with_name("queries_fixed.sql"))
+            sql_path = str(Path(__file__).with_name("queries.sql"))
+        print(sql_path + "\n")
         self.sql_path = str(Path(sql_path).expanduser().resolve())
+
+        print(sql_path + "\n")
 
         self.conn = sqlite3.connect(self.db_path, check_same_thread=False)
         self.conn.row_factory = sqlite3.Row
