@@ -184,7 +184,10 @@ class QueryService:
             return
         self.queries.add_string(self.conn, string=string, blocked=blocked)
         self.conn.commit()
+        
         self.refresh_strings()
+        if blocked:
+            self.refresh_blocked_strings()
 
     def remove_string_by_string(self, string: str) -> None:
         """ Removes given string from DB """
@@ -209,7 +212,7 @@ class QueryService:
         self.refresh_strings()
 
     def update_string_by_id(self, string_id: int, blocked: bool) -> None:
-        """ Updates string blocked value by string value """
+        """ Updates string blocked value by string id """
         self.queries.update_string_blocked_by_id(self.conn, string_id=string_id, blocked=blocked)
         self.conn.commit()
         self.refresh_strings()
@@ -243,6 +246,45 @@ class QueryService:
     def get_hotkeys(self) -> List[AnyHotkey]:
         """ Returns list of blocked hotkeys """
         return self.__hotkeys
+    
+    def add_hotkey(self, hotkey: str, blocked: bool = False) -> None:
+        """ Add new hotkey to blacklist, blocked defaults to false if not given """
+        if not hotkey or not hotkey.strip():
+            return
+        self.queries.add_hotkey(self.conn, hotkey=self.normalize_hotkey(hotkey), blocked=blocked)
+        self.conn.commit()
+
+        self.refresh_hotkeys()
+        if blocked:
+            self.refresh_blocked_hotkeys()
+
+    def remove_hotkey_by_hotkey(self, hotkey: str) -> None:
+        """ Removes given hotkey from DB """
+        if not hotkey or not hotkey.strip():
+            return
+        self.queries.remove_hotkey_by_hotkey(self.conn, hotkey=hotkey)
+        self.conn.commit()
+        self.refresh_hotkeys()
+
+    def remove_hotkey_by_id(self, hotkey_id: int) -> None:
+        """ Removes given hotkey from DB """
+        self.queries.remove_hotkey_by_id(self.conn, hotkey_id=hotkey_id)
+        self.conn.commit()
+        self.refresh_hotkeys()
+
+    def update_hotkey_by_hotkey(self, hotkey: str, blocked: bool) -> None:
+        """ Updates hotkey blocked value by hotkey string value """
+        if not hotkey or not hotkey.strip():
+            return
+        self.queries.update_hotkey_blocked_by_hotkey(self.conn, hotkey=hotkey, blocked=blocked)
+        self.conn.commit()
+        self.refresh_hotkeys()
+
+    def update_hotkey_by_id(self, hotkey_id: int, blocked: bool) -> None:
+        """Update hotkey blocked value by hotkey ID """
+        self.queries.update_hotkey_blocked_by_id(self.conn, hotkey_id=hotkey_id, blocked=blocked)
+        self.conn.commit()
+        self.refresh_hotkeys()
 
 
     # --- HOTKEY STRING PAIRS ---
@@ -254,7 +296,7 @@ class QueryService:
             BlockedPair(
                 hotkey_string_combination_id=row["hotkey_string_combination_id"],
                 hotkey_id=row["hotkey_id"],
-                hotkey=self.normalize_hotkey(row["hotkey"]),
+                hotkey=self.row["hotkey"],
                 string_id=row["string_id"],
                 string=row["string"],
             )
@@ -264,6 +306,10 @@ class QueryService:
     def refresh_blocked_pairs(self) -> None:
         """ Refreshes blocked hotkeys-string pairs """
         self.__blocked_pairs = self.__get_blocked_hotkey_string_pairs()
+
+    def get_pairs(self) -> List[BlockedPair]:
+        """ Returns list of blocked hotkey string pairs """
+        return self.__blocked_pairs
 
     # All Pairs
     def __get_hotkey_string_pairs(self) -> List[AnyPair]:
@@ -284,6 +330,41 @@ class QueryService:
     def refresh_pairs(self) -> None:
         """ Refreshes hotkeys-string pairs """
         self.__pairs = self.__get_hotkey_string_pairs()
+
+    def get_pairs(self):
+        """ Returns full list of hotkey string pairs """
+        return self.__pairs
+
+    def add_pair(self, hotkey_id: int, string_id: int, blocked: bool = False) -> None:
+        """ Adds new hotkey string pair to DB """
+        self.queries.add_hotkey_string_pair(
+            self.conn,
+            hotkey_id=hotkey_id,
+            string_id=string_id,
+            blocked=blocked
+        )
+        self.conn.commit()
+        self.refresh_pairs()
+        if blocked: 
+            self.refresh_blocked_pairs()
+
+    def remove_hotkey_string_pair_by_id(self, pair_id: int) -> None:
+        """ Removes hotkey string pair by pair id """
+        self.queries.remove_hotkey_string_pair_by_id(self.conn, hotkey_string_combination_id=pair_id)
+        self.conn.commit()
+        self.refresh_pairs()
+
+    def update_pair_by_id(self, pair_id: int, hotkey_id: int, string_id: int, blocked: bool) -> None:
+        """ Updates htokey string pair by pair id """
+        self.queries.update_hotkey_string_pair_by_id(
+            self.conn,
+            hotkey_string_combination_id=pair_id,
+            hotkey_id=hotkey_id,
+            string_id=string_id,
+            blocked=blocked
+        )
+        self.conn.commit()
+        self.refresh_pairs()
 
 
 
