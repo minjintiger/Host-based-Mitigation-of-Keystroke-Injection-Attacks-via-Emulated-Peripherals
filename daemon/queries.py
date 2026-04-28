@@ -149,7 +149,8 @@ class QueryService:
         return "+".join(sorted(parts))
 
 
-
+    # --- STRINGS ---
+    # Blocked Strings
     def __get_blocked_strings(self) -> List[BlockedString]:
         """ Returns full list of blocked strings with accompanying ids from DB """
         rows = self.queries.get_blocked_strings(self.conn)
@@ -179,7 +180,7 @@ class QueryService:
         self.conn.commit()
         self.refresh_strings()
 
-
+    # All Strings
     def __get_strings(self) -> List[AnyString]:
         """ Returns full list of strings with accompanying ids from DB """
         rows = self.queries.get_strings(self.conn)
@@ -194,7 +195,8 @@ class QueryService:
         return self.__strings
 
 
-
+    # --- HOTKEYS ---
+    # Blocked Hotkeys
     def __get_blocked_hotkeys(self) -> List[BlockedHotkey]:
         """ Returns full list of blocked hotkeys with accompanying ids from DB """
         rows = self.queries.get_blocked_hotkeys(self.conn)
@@ -208,7 +210,7 @@ class QueryService:
         """ Returns list of blocked hotkeys """
         return self.__blocked_hotkeys
 
-
+    # All Hotkeys
     def __get_hotkeys(self) -> List[AnyHotkey]:
         """ Returns full list of hotkeys with accompanying ids from DB """
         rows = self.queries.get_hotkeys(self.conn)
@@ -223,7 +225,8 @@ class QueryService:
         return self.__hotkeys
 
 
-
+    # --- HOTKEY STRING PAIRS ---
+    # Blocked Pairs
     def __get_blocked_hotkey_string_pairs(self) -> List[BlockedPair]:
         """ Returns full list of blocked hotkey-string pairs with accompanying ids from DB """
         rows = self.queries.get_blocked_hotkey_string_pairs(self.conn)
@@ -242,7 +245,7 @@ class QueryService:
         """ Refreshes blocked hotkeys-string pairs """
         self.__blocked_pairs = self.__get_blocked_hotkey_string_pairs()
 
-
+    # All Pairs
     def __get_hotkey_string_pairs(self) -> List[AnyPair]:
         """ Returns full list of hotkey-string pairs with accompanying ids from DB """
         rows = self.queries.get_hotkey_string_pairs(self.conn)
