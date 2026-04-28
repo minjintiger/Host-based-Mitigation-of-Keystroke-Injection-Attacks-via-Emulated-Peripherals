@@ -47,15 +47,6 @@ def update_hotkeys():
     st.rerun()
 
 
-if "pairs" not in st.session_state:
-    data = query_service.get_pairs()
-    st.session_state.pairs = pd.DataFrame([p.__dict__ for p in data])
-
-def update_pairs():
-    data = query_service.get_pairs()
-    st.session_state.pairs = pd.DataFrame([p.__dict__ for p in data])
-    st.rerun()
-
 
 # Corresponds to tables within database.
 class Table(StrEnum):
@@ -63,7 +54,7 @@ class Table(StrEnum):
     HOTKEY = "Hotkey Blacklist"
     PAIR = "Hotkey String Pair Blacklist"
     BLACKLIST_DETECTION = "Blacklist Detection Log"
-    KEYSTROKE_DETECTION = "Keystroke Detection Log"
+    KEYSTROKE_DETECTION = "Keystroke Speed Detection Log"
 
 
 # save table location
@@ -167,8 +158,19 @@ match table:
                     query_service.remove_hotkey_by_id(update_hotkey[0])
                     update_hotkeys()
 
+
+
         
     case Table.PAIR:
+        if "pairs" not in st.session_state:
+            data = query_service.get_pairs()
+            st.session_state.pairs = pd.DataFrame([p.__dict__ for p in data])
+
+        def update_pairs():
+            data = query_service.get_pairs()
+            st.session_state.pairs = pd.DataFrame([p.__dict__ for p in data])
+            st.rerun()
+
         string_table = st.session_state.strings
         hotkey_table = st.session_state.hotkeys
         pair_table = st.session_state.pairs
@@ -230,20 +232,103 @@ match table:
             
 
         
-    
-
 
     case Table.BLACKLIST_DETECTION:
-        st.write("blacklist log")
+        if "blacklist_detections" not in st.session_state:
+            data = query_service.get_blacklist_detections()
+            st.session_state.blacklist_detections = pd.DataFrame([bd.__dict__ for bd in data])
+
+        def update_blacklist_detections():
+            data = query_service.get_blacklist_detections()
+            st.session_state.blacklist_detections = pd.DataFrame([bd.__dict__ for bd in data])
+            st.rerun()
+
+        blacklist_detection_table = st.session_state.blacklist_detections
+
+        header = st.columns([0.5, 2.5, 2.5, 3.5, 1])
+        header[0].markdown("**ID**")
+        header[1].markdown("**Hotkey**")
+        header[2].markdown("**String**")
+        header[3].markdown("**Detected At**")
+        header[4].markdown("**Delete**")
+
+        for idx, row in blacklist_detection_table.iterrows():
+            cols = st.columns([0.5, 2.5, 2.5, 3.5, 1])
+
+            cols[0].write(row["detection_id"])
+            cols[1].write(row["hotkey"])
+            cols[2].write(row["string"])
+            cols[3].write(row["detected_at"])
+
+            delete_id = row["detection_id"]
+            delete_detection = row['detection_id']
+            if cols[4].button("", type="primary", icon=":material/delete_forever:", key=delete_detection, width=40):
+                query_service.remove_blacklist_detection(delete_detection)
+                update_blacklist_detections()
+
+        # OLD FORMAT
+        # # Dataframe + converting boolean values to "Yes" or "No"
+        # st.dataframe(
+        #     blacklist_detection_table.style.format({"blocked": lambda x: "Yes" if x else "No"}),
+        #     column_config={
+        #         "hotkey_id": st.column_config.NumberColumn(format="%.0f"),
+        #         "string_id": st.column_config.NumberColumn(format="%.0f"),
+        #         "pair_id": st.column_config.NumberColumn(format="%.0f")},
+        #     width="stretch", 
+        #     hide_index=True)
+        
+        # # Delete Detection Entry
+        # if "detection_id" in blacklist_detection_table.columns:
+        #     # tuple format: {detection_id, hotkey_id, hotkey, string_id, string, pair_id, detected_at}: <Integer, Integer, String, Integer, String, Integer, String, String>
+        #     detection_tuples = list(blacklist_detection_table.itertuples(index=False, name=None))
+
+        #     with st.expander("Delete Log Entry:"):
+        #         delete_detection = st.selectbox(
+        #             "Select a pair to update:",
+        #             options=detection_tuples,
+        #             format_func=lambda x: f"ID {x[0]} at {x[6]}")
+
+        #         if st.button("Delete Detection", type="primary", icon=":material/delete_forever:"):
+        #             query_service.remove_blacklist_detection(delete_detection[0])
+        #             update_blacklist_detections()
+
+
+
+
     case Table.KEYSTROKE_DETECTION:
-        st.write("keystroke log")
+        if "speed_detections" not in st.session_state:
+            data = query_service.get_speed_detections()
+            st.session_state.speed_detections = pd.DataFrame([sd.__dict__ for sd in data])
+
+        def update_speed_detections():
+            data = query_service.get_speed_detections()
+            st.session_state.speed_detections = pd.DataFrame([sd.__dict__ for sd in data])
+            st.rerun()
+
+        speed_detection_table = st.session_state.speed_detections
+
+        header = st.columns([1, 5, 3, 1])
+        header[0].markdown("**ID**")
+        header[1].markdown("**Info**")
+        header[2].markdown("**Detected At**")
+        header[3].markdown("**Delete**")
+
+        for idx, row in speed_detection_table.iterrows():
+            cols = st.columns([1, 5, 3, 1])
+
+            cols[0].write(row["detection_id"])
+            cols[1].write(row["info"])
+            cols[2].write(row["detected_at"])
+
+            delete_detection = row['detection_id']
+            if cols[3].button("", type="primary", icon=":material/delete_forever:", key=delete_detection, width=40):
+                query_service.remove_speed_detection(delete_detection)
+                update_speed_detections()
+
+
+
+
     case _:
         st.write("Not implemented!")
-
-
-
-
-
-
 
 
