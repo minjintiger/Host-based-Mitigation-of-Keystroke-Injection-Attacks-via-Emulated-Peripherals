@@ -354,13 +354,11 @@ class QueryService:
         self.conn.commit()
         self.refresh_pairs()
 
-    def update_pair_by_id(self, pair_id: int, hotkey_id: int, string_id: int, blocked: bool) -> None:
+    def update_pair_by_id(self, pair_id: int, blocked: bool) -> None:
         """ Updates hotkey string pair by pair id """
         self.queries.update_hotkey_string_pair_by_id(
             self.conn,
             id=pair_id,
-            hotkey_id=hotkey_id,
-            string_id=string_id,
             blocked=blocked
         )
         self.conn.commit()
