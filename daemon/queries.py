@@ -281,7 +281,7 @@ class QueryService:
         self.refresh_hotkeys()
 
     def update_hotkey_by_id(self, hotkey_id: int, blocked: bool) -> None:
-        """Update hotkey blocked value by hotkey ID """
+        """ Update hotkey blocked value by hotkey ID """
         self.queries.update_hotkey_blocked_by_id(self.conn, hotkey_id=hotkey_id, blocked=blocked)
         self.conn.commit()
         self.refresh_hotkeys()
