@@ -164,22 +164,6 @@ class QueryService:
         """ Returns list of blocked strings """
         return self.__blocked_strings
 
-    def add_string(self, string: str, blocked: bool = False) -> None:
-        """ Add new string to blacklist, blocked defaults to false if not given """
-        if not string or not string.strip():
-            return
-        self.queries.add_string(self.conn, string=string, blocked=blocked)
-        self.conn.commit()
-        self.refresh_strings()
-
-    def remove_string(self, string: str) -> None:
-        """ Removes given string from DB """
-        if not string or not string.strip():
-            return
-        self.queries.remove_string_by_string(self.conn, string=string)
-        self.conn.commit()
-        self.refresh_strings()
-
     # All Strings
     def __get_strings(self) -> List[AnyString]:
         """ Returns full list of strings with accompanying ids from DB """
@@ -193,6 +177,42 @@ class QueryService:
     def get_strings(self) -> List[AnyString]:
         """ Returns list of strings """
         return self.__strings
+    
+    def add_string(self, string: str, blocked: bool = False) -> None:
+        """ Add new string to blacklist, blocked defaults to false if not given """
+        if not string or not string.strip():
+            return
+        self.queries.add_string(self.conn, string=string, blocked=blocked)
+        self.conn.commit()
+        self.refresh_strings()
+
+    def remove_string_by_string(self, string: str) -> None:
+        """ Removes given string from DB """
+        if not string or not string.strip():
+            return
+        self.queries.remove_string_by_string(self.conn, string=string)
+        self.conn.commit()
+        self.refresh_strings()
+
+    def remove_string_by_id(self, string_id: int) -> None:
+        """ Removes given string from DB """
+        self.queries.remove_string_by_id(self.conn, string_id=string_id)
+        self.conn.commit()
+        self.refresh_strings()
+
+    def update_string_by_string(self, string: str, blocked: bool) -> None:
+        """ Updates string blocked value by string value """
+        if not string or not string.strip():
+            return
+        self.queries.update_string_blocked_by_string(self.conn, string=string, blocked=blocked)
+        self.conn.commit()
+        self.refresh_strings()
+
+    def update_string_by_id(self, string_id: int, blocked: bool) -> None:
+        """ Updates string blocked value by string value """
+        self.queries.update_string_blocked_by_id(self.conn, string_id=string_id, blocked=blocked)
+        self.conn.commit()
+        self.refresh_strings()
 
 
     # --- HOTKEYS ---
