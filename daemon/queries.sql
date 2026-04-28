@@ -80,14 +80,14 @@ WHERE hotkey_id = :hotkey_id;
 
 -- name: get_hotkey_string_pairs()
 -- Returns all strings in the form of (id, hotkey, string, blocked): <Integer, String, StringInteger, Boolean (0 - false, anything else - true)>.
-SELECT hotkey_string_combinations.hotkey_string_combination_id, hotkeys.hotkey, strings.string, hotkey_string_combinations.blocked
+SELECT hotkey_string_combinations.hotkey_string_combination_id AS pair_id, hotkeys.hotkey, strings.string, hotkey_string_combinations.blocked
 FROM hotkey_string_combinations
 JOIN hotkeys on hotkey_string_combinations.hotkey_id = hotkeys.hotkey_id
 JOIN strings on hotkey_string_combinations.string_id = strings.string_id;
 
 -- name: get_blocked_hotkey_string_pairs()
 -- Returns all strings in the form of (id, hotkey, string, blocked): <Integer, String, StringInteger, Boolean (0 - false, anything else - true)>.
-SELECT hotkey_string_combinations.hotkey_string_combination_id, hotkeys.hotkey, strings.string, hotkey_string_combinations.blocked
+SELECT hotkey_string_combinations.hotkey_string_combination_id AS pair_id, hotkeys.hotkey, strings.string, hotkey_string_combinations.blocked
 FROM hotkey_string_combinations
 JOIN hotkeys on hotkey_string_combinations.hotkey_id = hotkeys.hotkey_id
 JOIN strings on hotkey_string_combinations.string_id = strings.string_id
