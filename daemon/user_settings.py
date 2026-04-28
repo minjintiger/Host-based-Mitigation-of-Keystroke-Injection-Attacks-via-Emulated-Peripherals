@@ -26,6 +26,7 @@ def open_db_service():
 
 query_service = open_db_service()
 
+
 if "strings" not in st.session_state:
     data = query_service.get_strings()
     st.session_state.strings = pd.DataFrame([s.__dict__ for s in data])
@@ -33,7 +34,26 @@ if "strings" not in st.session_state:
 def update_strings():
     data = query_service.get_strings()
     st.session_state.strings = pd.DataFrame([s.__dict__ for s in data])
+    st.rerun()
 
+
+if "hotkeys" not in st.session_state:
+    data = query_service.get_hotkeys()
+    st.session_state.hotkeys = pd.DataFrame([h.__dict__ for h in data])
+
+def update_hotkeys():
+    data = query_service.get_hotkeys()
+    st.session_state.hotkeys = pd.DataFrame([h.__dict__ for h in data])
+    st.rerun()
+
+
+if "pairs" not in st.session_state:
+    data = query_service.get_pairs()
+    st.session_state.pairs = pd.DataFrame([p.__dict__ for p in data])
+
+def update_pairs():
+    data = query_service.get_pairs()
+    st.session_state.pairs = pd.DataFrame([p.__dict__ for p in data])
     st.rerun()
 
 
@@ -57,39 +77,101 @@ table = st.selectbox("Select a table to view:",
 match table:
     case Table.STRINGS:
         string_table = st.session_state.strings
-        st.dataframe(string_table.style.format({"blocked": lambda x: "Yes" if x else "No"}), width="stretch", hide_index=True)
 
+        # Dataframe + converting boolean values to "Yes" or "No"
+        st.dataframe(
+            string_table.style.format({"blocked": lambda x: "Yes" if x else "No"}), 
+            width="stretch", 
+            hide_index=True)
+
+        # Add String
         with st.expander("Add New String:"):
             with st.form("new_string_form", clear_on_submit=True, width="stretch", height="content"):
                 columns = st.columns(2)
                 string = columns[0].text_input("String")
                 blocked = columns[1].checkbox(label="Blacklisted")
-                submitted = st.form_submit_button("Add String")
+                submitted = st.form_submit_button("Add String", type="primary", icon=":material/add:")
+
                 if submitted:
                     query_service.add_string(string, blocked)
                     update_strings()
 
-        
+        # Update/Delete String
         if "string" in st.session_state.strings.columns:
-            with st.expander("Remove String:"):
-                delete_string = st.selectbox("Select a string to delete:", 
-                                            options=st.session_state.strings["string"].tolist())
-                if st.button("Delete", type="primary"):
-                    query_service.remove_string(delete_string)
+            # tuple format: {id (int), string (str), blocked (bool/int)}
+            string_tuples = list(st.session_state.strings.itertuples(index=False, name=None))
+        
+            with st.expander("Update or Delete String:"):
+                columns = st.columns(2)
+                update_string = columns[0].selectbox(
+                    "Select a string to delete:", 
+                    options=string_tuples,
+                    format_func=lambda x: f"{x[1]} ({'Blacklisted' if x[2] else 'Not Blacklisted'})")
+                
+                blocked = columns[1].checkbox(label="Blacklisted", value=update_string[2])
+
+                button_columns = st.columns([1, 2, 1])
+                if button_columns[0].button("Update", type="primary", icon=":material/edit_square:"):
+                    query_service.update_string_by_id(update_string[0], blocked)
                     update_strings()
+
+                if button_columns[2].button("Delete", type="primary", icon=":material/delete_forever:"):
+                    query_service.remove_string_by_id(update_string[0])
+                    update_strings()
+                
+                
         
-        
-        
-            
         
     case Table.HOTKEY:
-        st.write("hotkeys")
-        # hotkeys_table = query_service.get_strings()
-        # st.dataframe(hotkeys_table, width="stretch", height=600)
+        hotkey_table = st.session_state.hotkeys
+
+        # Dataframe + converting boolean values to "Yes" or "No"
+        st.dataframe(
+            hotkey_table.style.format({"blocked": lambda x: "Yes" if x else "No"}),
+            width="stretch",
+            hide_index=True)
+
+        # Add Hotkey
+        with st.expander("Add New Hotkey:"):
+            with st.form("new_hotkey_form", clear_on_submit=True):
+                columns = st.columns(2)
+                hotkey = columns[0].text_input("Hotkey")
+                blocked = columns[1].checkbox("Blacklisted")
+                submitted = st.form_submit_button("Add Hotkey", type="primary", icon=":material/add:")
+
+                if submitted:
+                    query_service.add_hotkey(hotkey, blocked)
+                    update_hotkeys()
+
+
+        if "hotkey" in hotkey_table.columns:
+            # tuple format: {id (int), hotkey (str), blocked (bool/int)}
+            hotkey_tuples = list(hotkey_table.itertuples(index=False, name=None))
+
+            # Update/Delete Hotkey
+            with st.expander("Update or Delete Hotkey:"):
+                columns = st.columns(2)
+                update_hotkey = columns[0].selectbox(
+                    "Select a hotkey to update:",
+                    options=hotkey_tuples,
+                    format_func=lambda x: f"{x[1]} ({'Blacklisted' if x[2] else 'Not Blacklisted'})")
+
+                blocked = columns[1].checkbox("Blacklisted", value=update_hotkey[2])
+
+                button_columns = st.columns([1, 2, 1])
+                if button_columns[0].button("Update Hotkey", type="primary", icon=":material/edit_square:"):
+                    query_service.update_hotkey_by_id(update_hotkey[0], blocked)
+                    update_hotkeys()
+
+                if button_columns[2].button("Delete Hotkey", type="primary", icon=":material/delete_forever:"):
+                    query_service.remove_hotkey_by_id(update_hotkey[0])
+                    update_hotkeys()
 
         
     case Table.PAIR:
-        st.write("pairs")
+        string_table = st.session_state.strings
+        hotkey_table = st.session_state.hotkeys
+
     case Table.BLACKLIST_DETECTION:
         st.write("blacklist log")
     case Table.KEYSTROKE_DETECTION:
