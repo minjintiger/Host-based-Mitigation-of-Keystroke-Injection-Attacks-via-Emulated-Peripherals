@@ -281,7 +281,7 @@ class KeystrokeDaemon:
         signature = f"pair|{pair_id}|{value}"
         if self.should_suppress(signature):
             return
-        self.q.add_blacklist_detection_pair(hotkey_string_combination_id=pair_id, detected_at=self.utc_now())
+        self.q.add_blacklist_detection_pair(pair_id=pair_id, detected_at=self.utc_now())
         logging.info("PAIR DETECTION | %s", value)
 
     def on_press(self, key: keyboard.Key | keyboard.KeyCode) -> None:
@@ -328,7 +328,7 @@ class KeystrokeDaemon:
                     )
                     if pair_match is not None:
                         self.log_pair_detection(
-                            pair_match.hotkey_string_combination_id,
+                            pair_match.pair_id,
                             f"{self.recent_hotkey.hotkey} + {string_match.string}",
                         )
 

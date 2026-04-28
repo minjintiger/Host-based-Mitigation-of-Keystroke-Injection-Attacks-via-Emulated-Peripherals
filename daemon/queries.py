@@ -40,7 +40,7 @@ class AnyHotkey:
 
 @dataclass(frozen=True)
 class BlockedPair:
-    hotkey_string_combination_id: int
+    pair_id: int
     hotkey_id: int
     hotkey: str
     string_id: int
@@ -48,7 +48,7 @@ class BlockedPair:
 
 @dataclass(frozen=True)
 class AnyPair:
-    hotkey_string_combination_id: int
+    pair_id: int
     hotkey_id: int
     hotkey: str
     string_id: int
@@ -294,7 +294,7 @@ class QueryService:
         rows = self.queries.get_blocked_hotkey_string_pairs(self.conn)
         return [
             BlockedPair(
-                hotkey_string_combination_id=row["hotkey_string_combination_id"],
+                pair_id=row["hotkey_string_combination_id"],
                 hotkey_id=row["hotkey_id"],
                 hotkey=self.row["hotkey"],
                 string_id=row["string_id"],
@@ -317,7 +317,7 @@ class QueryService:
         rows = self.queries.get_hotkey_string_pairs(self.conn)
         return [
             AnyPair(
-                hotkey_string_combination_id=row["hotkey_string_combination_id"],
+                pair_id=row["hotkey_string_combination_id"],
                 hotkey_id=row["hotkey_id"],
                 hotkey=self.normalize_hotkey(row["hotkey"]),
                 string_id=row["string_id"],
@@ -406,11 +406,11 @@ class QueryService:
         self.queries.add_blacklist_detection_string(self.conn, string_id=string_id, detected_at=detected_at)
         self.conn.commit()
 
-    def add_blacklist_detection_pair(self, hotkey_string_combination_id: int, detected_at: str) -> None:
+    def add_blacklist_detection_pair(self, pair_id: int, detected_at: str) -> None:
         """ Adds hotkey-string pair detection log to DB """
         self.queries.add_blacklist_detection_pair(
             self.conn,
-            hotkey_string_combination_id=hotkey_string_combination_id,
+            hotkey_string_combination_id=pair_id,
             detected_at=detected_at,
         )
         self.conn.commit()
