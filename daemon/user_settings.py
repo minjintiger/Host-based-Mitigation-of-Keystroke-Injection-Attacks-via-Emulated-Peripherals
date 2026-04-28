@@ -99,16 +99,16 @@ match table:
         # Update/Delete String
         if "string" in st.session_state.strings.columns:
             # tuple format: {id (int), string (str), blocked (bool/int)}
-            string_tuples = list(st.session_state.strings.itertuples(index=False, name=None))
+            string_tuples = list(string_table.itertuples(index=False, name=None))
         
             with st.expander("Update or Delete String:"):
                 columns = st.columns(2)
                 update_string = columns[0].selectbox(
-                    "Select a string to delete:", 
+                    "Select a string to update:", 
                     options=string_tuples,
                     format_func=lambda x: f"{x[1]} ({'Blacklisted' if x[2] else 'Not Blacklisted'})")
                 
-                blocked = columns[1].checkbox(label="Blacklisted", value=update_string[2])
+                blocked = columns[1].checkbox(label="Blacklist", value=update_string[2])
 
                 button_columns = st.columns([1, 2, 1])
                 if button_columns[0].button("Update", type="primary", icon=":material/edit_square:"):
@@ -156,7 +156,7 @@ match table:
                     options=hotkey_tuples,
                     format_func=lambda x: f"{x[1]} ({'Blacklisted' if x[2] else 'Not Blacklisted'})")
 
-                blocked = columns[1].checkbox("Blacklisted", value=update_hotkey[2])
+                blocked = columns[1].checkbox("Blacklist", value=update_hotkey[2])
 
                 button_columns = st.columns([1, 2, 1])
                 if button_columns[0].button("Update Hotkey", type="primary", icon=":material/edit_square:"):
@@ -171,6 +171,67 @@ match table:
     case Table.PAIR:
         string_table = st.session_state.strings
         hotkey_table = st.session_state.hotkeys
+        pair_table = st.session_state.pairs
+        
+
+        # Dataframe + converting boolean values to "Yes" or "No"
+        st.dataframe(
+            pair_table.style.format({"blocked": lambda x: "Yes" if x else "No"}), 
+            width="stretch", 
+            hide_index=True)
+        
+        # Add Pair
+        if "hotkey" in hotkey_table.columns and "string" in st.session_state.strings.columns:
+            # tuple format: {id (int), string (str), blocked (bool/int)}
+            string_tuples = list(string_table.itertuples(index=False, name=None))
+            # tuple format: {id (int), hotkey (str), blocked (bool/int)}
+            hotkey_tuples = list(hotkey_table.itertuples(index=False, name=None))
+
+            with st.expander("Add New Hotkey-String Pair:"):
+                with st.form("new_hotkey_form", clear_on_submit=True):
+                    columns = st.columns(3)
+                    hotkey = columns[0].selectbox("Select a hotkey:", 
+                                                  options=hotkey_tuples,
+                                                  format_func=lambda x: f"{x[1]}")
+                    string = columns[1].selectbox("Select a string:", 
+                                                  options=string_tuples,
+                                                  format_func=lambda x: f"{x[1]}")
+                    blocked = columns[2].checkbox("Blacklist")
+                    submitted = st.form_submit_button("Add Pair", type="primary", icon=":material/add:")
+
+                    if submitted:
+                        query_service.add_pair(hotkey_id=hotkey[0], string_id=string[0], blocked=blocked)
+                        update_pairs()
+        else:
+            st.text("At least one hotkey and string must be present before pair can be added!")
+
+        # Update/Delete Pair
+        if "pair_id" in pair_table.columns:
+            # tuple format: {id (int), hotkey_id (int), hotkey (str), string_id (int), string (str), blocked (bool/int)}
+            pair_tuples = list(pair_table.itertuples(index=False, name=None))
+
+            with st.expander("Update or Delete Pair:"):
+                columns = st.columns(2)
+                update_pair = columns[0].selectbox(
+                    "Select a pair to update:",
+                    options=pair_tuples,
+                    format_func=lambda x: f"{x[2]} + {x[4]} ({'Blacklisted' if x[5] else 'Not Blacklisted'})")
+
+                blocked = columns[1].checkbox("Blacklist", value=update_pair[5])
+
+                button_columns = st.columns([1, 2, 1])
+                if button_columns[0].button("Update Pair", type="primary", icon=":material/edit_square:"):
+                    query_service.update_pair_by_id(update_pair[0], blocked)
+                    update_pairs()
+
+                if button_columns[2].button("Delete Pair", type="primary", icon=":material/delete_forever:"):
+                    query_service.remove_pair_by_id(update_pair[0])
+                    update_pairs()
+            
+
+        
+    
+
 
     case Table.BLACKLIST_DETECTION:
         st.write("blacklist log")
