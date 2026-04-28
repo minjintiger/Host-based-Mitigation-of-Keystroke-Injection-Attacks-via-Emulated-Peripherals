@@ -296,7 +296,7 @@ class QueryService:
             BlockedPair(
                 pair_id=row["hotkey_string_combination_id"],
                 hotkey_id=row["hotkey_id"],
-                hotkey=self.row["hotkey"],
+                hotkey=row["hotkey"],
                 string_id=row["string_id"],
                 string=row["string"],
             )
@@ -350,15 +350,15 @@ class QueryService:
 
     def remove_hotkey_string_pair_by_id(self, pair_id: int) -> None:
         """ Removes hotkey string pair by pair id """
-        self.queries.remove_hotkey_string_pair_by_id(self.conn, hotkey_string_combination_id=pair_id)
+        self.queries.remove_hotkey_string_pair_by_id(self.conn, id=pair_id)
         self.conn.commit()
         self.refresh_pairs()
 
     def update_pair_by_id(self, pair_id: int, hotkey_id: int, string_id: int, blocked: bool) -> None:
-        """ Updates htokey string pair by pair id """
+        """ Updates hotkey string pair by pair id """
         self.queries.update_hotkey_string_pair_by_id(
             self.conn,
-            hotkey_string_combination_id=pair_id,
+            id=pair_id,
             hotkey_id=hotkey_id,
             string_id=string_id,
             blocked=blocked

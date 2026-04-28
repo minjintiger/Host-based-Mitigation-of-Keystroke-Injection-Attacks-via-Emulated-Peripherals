@@ -79,29 +79,35 @@ WHERE hotkey_id = :hotkey_id;
 
 
 -- name: get_hotkey_string_pairs()
--- Returns all strings in the form of (id, hotkey, string, blocked): <Integer, String, StringInteger, Boolean (0 - false, anything else - true)>.
+-- Returns all strings in the form of (id, hotkey_id, hotkey, string_id, string, blocked): <Integer, String, StringInteger, Boolean (0 - false, anything else - true)>.
 SELECT hotkey_string_combinations.hotkey_string_combination_id, hotkeys.hotkey_id, hotkeys.hotkey, strings.string_id, strings.string, hotkey_string_combinations.blocked
 FROM hotkey_string_combinations
 JOIN hotkeys on hotkey_string_combinations.hotkey_id = hotkeys.hotkey_id
 JOIN strings on hotkey_string_combinations.string_id = strings.string_id;
 
 -- name: get_blocked_hotkey_string_pairs()
--- Returns all strings in the form of (id, hotkey, string, blocked): <Integer, String, StringInteger, Boolean (0 - false, anything else - true)>.
+-- Returns all strings in the form of (id, hotkey_id, hotkey, string_id, string, blocked): <Integer, String, StringInteger, Boolean (0 - false, anything else - true)>.
 SELECT hotkey_string_combinations.hotkey_string_combination_id, hotkeys.hotkey_id, hotkeys.hotkey, strings.string_id, strings.string, hotkey_string_combinations.blocked
 FROM hotkey_string_combinations
 JOIN hotkeys on hotkey_string_combinations.hotkey_id = hotkeys.hotkey_id
 JOIN strings on hotkey_string_combinations.string_id = strings.string_id
 WHERE hotkey_string_combinations.blocked != 0;
 
--- name: add_hotkey_string_pair(hotkey_id, string_id)!
+-- name: add_hotkey_string_pair(hotkey_id, string_id, blocked)!
 -- Adds hotkey <String>, string <String> pair to table, blocked set to false by default.  Overwrites if currently in DB.
-REPLACE INTO hotkey_string_combinations (hotkey_id, string_id) 
-VALUES (:hotkey_id, :string_id);
+REPLACE INTO hotkey_string_combinations (hotkey_id, string_id, blocked) 
+VALUES (:hotkey_id, :string_id, :blocked);
 
--- name: remove_hotkey_string_pair_by_id(hotkey_string_combination_id)!
+-- name: update_hotkey_string_pair_by_id(id, blocked)!
+-- Updates blocked state of pair with value blocked
+UPDATE hotkey_string_combinations 
+SET blocked = :blocked 
+WHERE hotkey_string_combination_id = :id;
+
+-- name: remove_hotkey_string_pair_by_id(id)!
 -- Removes hotkey <String>, string <String> pair by id
 DELETE FROM hotkey_string_combinations
-WHERE hotkey_string_combination_id = :hotkey_string_combination_id;
+WHERE hotkey_string_combination_id = :id;
 
 
 
