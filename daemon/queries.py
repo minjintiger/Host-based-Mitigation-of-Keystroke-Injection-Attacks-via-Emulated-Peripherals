@@ -10,6 +10,7 @@ import sqlite3
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional
+from datetime import datetime
 
 import aiosql
 
@@ -54,6 +55,24 @@ class AnyPair:
     string_id: int
     string: str
     blocked: bool
+
+@dataclass(frozen=True)
+class BlacklistDetection:
+    detection_id: int
+    hotkey_id: int
+    hotkey: str
+    string_id: int
+    string: str
+    pair_id: int
+    detected_at: datetime
+
+@dataclass(frozen=True)
+class SpeedDetection:
+    detection_id: int
+    info: str
+    detected_at: datetime
+
+
 
 
 class QueryService:
@@ -365,7 +384,7 @@ class QueryService:
         self.refresh_pairs()
 
 
-
+    # --- COMPARISON FUNCTIONS ---
     def blocked_string_match(self, text_snapshot: str) -> Optional[BlockedString]:
         """ Checks if given string is blocked """
         lowered = text_snapshot.lower()
@@ -389,26 +408,73 @@ class QueryService:
                 return item
         return None
 
-    def add_speed_detection(self, info: str, detected_at: str) -> None:
+    
+    # --- SPEED DETECTIONS ---
+    def get_speed_detections(self) -> List[SpeedDetection]:
+        """ Returns list of speed detections """
+        rows = self.queries.get_speed_detections(self.conn)
+        return [
+            SpeedDetection(
+                detection_id=row["speed_detection_id"],
+                info=row["info"],
+                detected_at=datetime.fromisoformat(row["detected_at"])
+            )
+            for row in rows
+        ]
+
+    def add_speed_detection(self, info: str, detected_at: datetime) -> None:
         """ Adds speed detection log to DB """
-        self.queries.add_speed_detection(self.conn, info=info, detected_at=detected_at)
+        self.queries.add_speed_detection(self.conn, info=info, detected_at=detected_at.isoformat(timespec="milliseconds"))
         self.conn.commit()
 
-    def add_blacklist_detection_hotkey(self, hotkey_id: int, detected_at: str) -> None:
+    def remove_speed_detection(self, id: int):
+        """ Removes speed detection entry with given id """
+        self.queries.remove_speed_detection_by_id(self.conn, id=id)
+        self.conn.commit()
+
+
+    # --- BLACKLIST DETECTIONS ---
+    def get_blacklist_detections(self) -> List[BlacklistDetection]:
+        """ 
+        Returns list of blacklist detections.
+        Only one of the three ids (hotkey_id, string_id, pair_id) has a value and that determines which type of detection it was.
+        In the case of pair_id being set, both hotkey and string values are set.
+        """
+        rows = self.queries.get_blacklist_detections(self.conn)
+        return [
+            BlacklistDetection(
+                detection_id=row["blacklist_detection_id"],
+                hotkey_id=row["hotkey_id"],
+                hotkey=row["hotkey"],
+                string_id=row["string_id"],
+                string=row["string"],
+                pair_id=row["hotkey_string_combination_id"],
+                detected_at=datetime.fromisoformat(row["detected_at"])
+            )
+            for row in rows
+        ]
+
+
+    def add_blacklist_detection_hotkey(self, hotkey_id: int, detected_at: datetime) -> None:
         """ Adds hotkey blacklist detection log to DB """
-        self.queries.add_blacklist_detection_hotkey(self.conn, hotkey_id=hotkey_id, detected_at=detected_at)
+        self.queries.add_blacklist_detection_hotkey(self.conn, hotkey_id=hotkey_id, detected_at=detected_at.isoformat(timespec="milliseconds"))
         self.conn.commit()
 
-    def add_blacklist_detection_string(self, string_id: int, detected_at: str) -> None:
+    def add_blacklist_detection_string(self, string_id: int, detected_at: datetime) -> None:
         """ Adds string blacklist detection log to DB """
-        self.queries.add_blacklist_detection_string(self.conn, string_id=string_id, detected_at=detected_at)
+        self.queries.add_blacklist_detection_string(self.conn, string_id=string_id, detected_at=detected_at.isoformat(timespec="milliseconds"))
         self.conn.commit()
 
     def add_blacklist_detection_pair(self, pair_id: int, detected_at: str) -> None:
         """ Adds hotkey-string pair detection log to DB """
         self.queries.add_blacklist_detection_pair(
             self.conn,
-            hotkey_string_combination_id=pair_id,
-            detected_at=detected_at,
+            pair_id=pair_id,
+            detected_at=detected_at.isoformat(timespec="milliseconds")
         )
+        self.conn.commit()
+
+    def remove_blacklist_detection(self, id: int):
+        """ Removes speed detection entry with given id """
+        self.queries.remove_blacklist_detection_by_id(self.conn, id=id)
         self.conn.commit()

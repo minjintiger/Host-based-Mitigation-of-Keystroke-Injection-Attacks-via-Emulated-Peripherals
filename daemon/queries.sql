@@ -121,18 +121,35 @@ FROM speed_detections;
 REPLACE INTO speed_detections (info, detected_at)
 VALUES (:info, :detected_at);
 
--- name: remove_speed_detection_by_id(speed_detection_id)!
+-- name: remove_speed_detection_by_id(id)!
 -- Removes speed detection log entry by given id
 DELETE FROM speed_detections
-WHERE speed_detection_id = :speed_detection_id;
-
+WHERE speed_detection_id = :id;
 
 
 
 -- name: get_blacklist_detections()
--- Returns all blacklist detections in the form of (id, hotkey_id, string_id, hotkey_string_combination_id, detected_at): <Integer, Integer, Integer, Integer, String> where only one of the three ids is not null, representing which one was blocked
-SELECT * 
-FROM blacklist_detections;
+-- Returns all blacklist detections in the form of (id, hotkey_id, hotkey, string_id, string, pair_id, detected_at): <Integer, Integer, String, Integer, String, Integer, String>
+SELECT 
+    bd.blacklist_detection_id,
+    bd.hotkey_id,
+    bd.string_id,
+    bd.hotkey_string_combination_id,
+    COALESCE(hotkeys.hotkey, hotkeys_pair.hotkey) AS hotkey,
+    COALESCE(strings.string, strings_pair.string) AS string,
+    bd.detected_at AS detected_at
+FROM blacklist_detections AS bd
+LEFT JOIN hotkeys 
+    ON bd.hotkey_id = hotkeys.hotkey_id
+LEFT JOIN strings 
+    ON bd.string_id = strings.string_id
+LEFT JOIN hotkey_string_combinations AS hsc
+    ON bd.hotkey_string_combination_id = hsc.hotkey_string_combination_id
+LEFT JOIN hotkeys AS hotkeys_pair
+    ON hsc.hotkey_id = hotkeys_pair.hotkey_id
+LEFT JOIN strings AS strings_pair
+    ON hsc.string_id = strings_pair.string_id;
+
 
 -- name: add_blacklist_detection_hotkey(hotkey_id, detected_at)!
 -- Adds detection to DB where hotkey_id: Integer, detected_at: String (consistent date/time format required for stability)
@@ -149,7 +166,7 @@ VALUES (:string_id, :detected_at);
 REPLACE INTO blacklist_detections (hotkey_string_combination_id, detected_at)
 VALUES (:pair_id, :detected_at);
 
--- name: remove_blacklist_detection_by_id(blacklist_detection_id)!
+-- name: remove_blacklist_detection_by_id(id)!
 -- Removes blacklist detection log entry by given id
 DELETE FROM blacklist_detections
-WHERE blacklist_detection_id = :blacklist_detection_id;
+WHERE blacklist_detection_id = :id;
