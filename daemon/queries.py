@@ -348,7 +348,7 @@ class QueryService:
         if blocked: 
             self.refresh_blocked_pairs()
 
-    def remove_hotkey_string_pair_by_id(self, pair_id: int) -> None:
+    def remove_pair_by_id(self, pair_id: int) -> None:
         """ Removes hotkey string pair by pair id """
         self.queries.remove_hotkey_string_pair_by_id(self.conn, id=pair_id)
         self.conn.commit()
