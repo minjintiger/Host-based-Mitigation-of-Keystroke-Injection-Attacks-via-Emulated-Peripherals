@@ -36,7 +36,7 @@ DANGEROUS_COMBOS = [
 
 # Speed typing feature
 ENABLE_SPEED_SWEEP = True
-SPEED_PROFILES_MS = [240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0]
+SPEED_PROFILES_MS = [340, 300, 280, 260, 240, 220, 200, 180]
 DEFAULT_FIXED_DELAY_MS = 200   # used if ENABLE_SPEED_SWEEP = False
 
 # human alike typing parameters
