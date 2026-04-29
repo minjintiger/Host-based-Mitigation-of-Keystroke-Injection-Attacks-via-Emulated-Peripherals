@@ -81,8 +81,8 @@ class KeystrokeDaemon:
         self.last_detection_ts: float = 0.0
 
     @staticmethod
-    def utc_now() -> str:
-        return datetime.now(timezone.utc).isoformat(timespec="seconds")
+    def utc_now() -> datetime:
+        return datetime.now(timezone.utc)
 
     @staticmethod
     def normalize_modifier(key: keyboard.Key | keyboard.KeyCode) -> Optional[str]:

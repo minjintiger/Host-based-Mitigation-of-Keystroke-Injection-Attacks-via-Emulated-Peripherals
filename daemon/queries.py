@@ -465,7 +465,7 @@ class QueryService:
         self.queries.add_blacklist_detection_string(self.conn, string_id=string_id, detected_at=detected_at.isoformat(timespec="milliseconds"))
         self.conn.commit()
 
-    def add_blacklist_detection_pair(self, pair_id: int, detected_at: str) -> None:
+    def add_blacklist_detection_pair(self, pair_id: int, detected_at: datetime) -> None:
         """ Adds hotkey-string pair detection log to DB """
         self.queries.add_blacklist_detection_pair(
             self.conn,
