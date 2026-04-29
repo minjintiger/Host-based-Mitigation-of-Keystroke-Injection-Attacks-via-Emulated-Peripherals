@@ -26,6 +26,14 @@ INTER_SEQUENCE_DELAY_S = 2
 INTER_PROFILE_DELAY_S = 10
 COMBO_HOLD_MS = 50
 
+# Skip potentially dangerous combos that could cause issues during testing (e.g., opening task manager, locking screen, etc.)
+ENABLE_SAFE_MODE = True
+
+DANGEROUS_COMBOS = [
+    ["GUI", "L"],
+    ["CTRL", "ALT", "DELETE"],
+]
+
 # Speed typing feature
 ENABLE_SPEED_SWEEP = True
 SPEED_PROFILES_MS = [240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0]
@@ -197,6 +205,18 @@ def send_combo(keys):
     sleep_ms(COMBO_HOLD_MS)
     kbd.release_all()
 
+def normalize_combo_keys(keys):
+    return sorted([k.strip().upper() for k in keys])
+
+def is_dangerous_combo(keys):
+    normalized = normalize_combo_keys(keys)
+
+    for combo in DANGEROUS_COMBOS:
+        if normalized == normalize_combo_keys(combo):
+            return True
+
+    return False
+
 # ----------------------------
 # Event execution
 # ----------------------------
@@ -212,9 +232,20 @@ def run_event(event, fixed_delay_ms, human_like=False):
             sleep_ms(fixed_delay_ms)
 
     elif etype == "combo":
-        send_combo(event["keys"])
-        if fixed_delay_ms > 0:
-            sleep_ms(fixed_delay_ms)
+        keys = event["keys"]
+
+        if ENABLE_SAFE_MODE and is_dangerous_combo(keys):
+            log_event(
+                "SKIP_DANGEROUS_COMBO",
+                fixed_delay_ms,
+                "",
+                "skipped combo={}".format("+".join(keys))
+            )
+            return
+
+        send_combo(keys)
+    if fixed_delay_ms > 0:
+        sleep_ms(fixed_delay_ms)
 
     elif etype == "delay":
         sleep_ms(int(event.get("ms", 0)))

@@ -2,7 +2,7 @@
   "meta": {
     "name": "dataset",
     "description": "dataset combining word-boundary-safe events and explicit daemon test sequences.",
-    "format_version": 1,
+    "format_version": 1
   },
   "sequences": [
     {
