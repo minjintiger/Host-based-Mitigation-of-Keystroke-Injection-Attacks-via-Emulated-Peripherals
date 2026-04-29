@@ -21,7 +21,7 @@ from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS
 # ----------------------------
 INPUT_PATH = "/dataset.json"
 
-INITIAL_DELAY_S = 15
+INITIAL_DELAY_S = 30
 INTER_SEQUENCE_DELAY_S = 2
 INTER_PROFILE_DELAY_S = 10
 COMBO_HOLD_MS = 50
