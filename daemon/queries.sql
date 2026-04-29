@@ -96,7 +96,9 @@ WHERE hotkey_string_combinations.blocked != 0;
 -- name: add_hotkey_string_pair(hotkey_id, string_id, blocked)!
 -- Adds hotkey <String>, string <String> pair to table, blocked set to false by default.  Overwrites if currently in DB.
 REPLACE INTO hotkey_string_combinations (hotkey_id, string_id, blocked) 
-VALUES (:hotkey_id, :string_id, :blocked);
+VALUES (:hotkey_id, :string_id, :blocked)
+ON CONFLICT(hotkey_id, string_id) DO UPDATE SET
+    blocked = excluded.blocked;
 
 -- name: update_hotkey_string_pair_by_id(id, blocked)!
 -- Updates blocked state of pair with value blocked
