@@ -73,14 +73,18 @@ match table:
         st.dataframe(
             string_table.style.format({"blocked": lambda x: "Yes" if x else "No"}), 
             width="stretch", 
-            hide_index=True)
+            hide_index=True,
+            column_config={
+                "string_id": None,
+                "blocked": st.column_config.Column(alignment="left")
+            })
 
         # Add String
         with st.expander("Add New String:"):
             with st.form("new_string_form", clear_on_submit=True, width="stretch", height="content"):
                 columns = st.columns(2)
                 string = columns[0].text_input("String")
-                blocked = columns[1].checkbox(label="Blacklisted")
+                blocked = columns[1].checkbox(label="Blacklist")
                 submitted = st.form_submit_button("Add String", type="primary", icon=":material/add:")
 
                 if submitted:
@@ -97,7 +101,7 @@ match table:
                 update_string = columns[0].selectbox(
                     "Select a string to update:", 
                     options=string_tuples,
-                    format_func=lambda x: f"{x[1]} ({'Blacklisted' if x[2] else 'Not Blacklisted'})")
+                    format_func=lambda x: f"{'🚫' if x[2] else '✅'} {x[1]}")
                 
                 blocked = columns[1].checkbox(label="Blacklist", value=update_string[2])
 
@@ -120,14 +124,18 @@ match table:
         st.dataframe(
             hotkey_table.style.format({"blocked": lambda x: "Yes" if x else "No"}),
             width="stretch",
-            hide_index=True)
+            hide_index=True,
+            column_config={
+                "hotkey_id": None,
+                "blocked": st.column_config.Column(alignment="left")
+            })
 
         # Add Hotkey
         with st.expander("Add New Hotkey:"):
             with st.form("new_hotkey_form", clear_on_submit=True):
                 columns = st.columns(2)
                 hotkey = columns[0].text_input("Hotkey")
-                blocked = columns[1].checkbox("Blacklisted")
+                blocked = columns[1].checkbox("Blacklist")
                 submitted = st.form_submit_button("Add Hotkey", type="primary", icon=":material/add:")
 
                 if submitted:
@@ -145,7 +153,7 @@ match table:
                 update_hotkey = columns[0].selectbox(
                     "Select a hotkey to update:",
                     options=hotkey_tuples,
-                    format_func=lambda x: f"{x[1]} ({'Blacklisted' if x[2] else 'Not Blacklisted'})")
+                    format_func=lambda x: f"{'🚫' if x[2] else '✅'} {x[1]}")
 
                 blocked = columns[1].checkbox("Blacklist", value=update_hotkey[2])
 
@@ -180,7 +188,13 @@ match table:
         st.dataframe(
             pair_table.style.format({"blocked": lambda x: "Yes" if x else "No"}), 
             width="stretch", 
-            hide_index=True)
+            hide_index=True,
+            column_config={
+                "pair_id": None,
+                "hotkey_id": None,
+                "string_id": None,
+                "blocked": st.column_config.Column(alignment="left")
+            })
         
         # Add Pair
         if "hotkey" in hotkey_table.columns and "string" in st.session_state.strings.columns:
@@ -217,7 +231,7 @@ match table:
                 update_pair = columns[0].selectbox(
                     "Select a pair to update:",
                     options=pair_tuples,
-                    format_func=lambda x: f"{x[2]} + {x[4]} ({'Blacklisted' if x[5] else 'Not Blacklisted'})")
+                    format_func=lambda x: f"{'🚫' if x[5] else '✅'} {x[2]} + {x[4]}")
 
                 blocked = columns[1].checkbox("Blacklist", value=update_pair[5])
 
