@@ -23,7 +23,7 @@ INPUT_PATH = "/dataset.json"
 
 INITIAL_DELAY_S = 10
 INTER_SEQUENCE_DELAY_S = 2
-INTER_PROFILE_DELAY_S = 8
+INTER_PROFILE_DELAY_S = 20
 COMBO_HOLD_MS = 50
 
 # Speed typing feature
@@ -140,29 +140,124 @@ def get_keycode(token):
         raise ValueError("Unsupported key token: {}".format(token))
     return KEYMAP[token]
 
+def clean_csv(value):
+    text = str(value)
+    text = text.replace(",", ";")
+    text = text.replace("\n", " ")
+    text = text.replace("\r", " ")
+    return text
+
+def safe_div(numerator, denominator):
+    if denominator == 0:
+        return 0.0
+    return numerator / denominator
+
+def new_stats():
+    return {
+        "elapsed_ms": 0.0,
+        "text_elapsed_ms": 0.0,
+        "text_chars": 0,
+        "key_events": 0,
+        "combo_events": 0,
+        "delay_events": 0,
+        "total_events": 0,
+    }
+
+def merge_stats(total, item):
+    total["elapsed_ms"] += item.get("elapsed_ms", 0.0)
+    total["text_elapsed_ms"] += item.get("text_elapsed_ms", 0.0)
+    total["text_chars"] += item.get("text_chars", 0)
+    total["key_events"] += item.get("key_events", 0)
+    total["combo_events"] += item.get("combo_events", 0)
+    total["delay_events"] += item.get("delay_events", 0)
+    total["total_events"] += item.get("total_events", 0)
+
 def ensure_log_header():
     try:
         need_header = False
-        if LOG_PATH.strip("/") not in os.listdir("/"):
+
+        try:
+            size = os.stat(LOG_PATH)[6]
+            if size == 0:
+                need_header = True
+        except OSError:
             need_header = True
+
         with open(LOG_PATH, "a") as f:
             if need_header:
-                f.write("monotonic_s,event,profile_ms,sequence_id,note\n")
+                f.write(
+                    "monotonic_s,event,run_type,profile_ms,sequence_id,"
+                    "elapsed_ms,text_elapsed_ms,text_chars,key_events,combo_events,"
+                    "delay_events,total_events,avg_ms_per_char,text_avg_ms_per_char,"
+                    "chars_per_sec,note\n"
+                )
     except Exception:
         pass
 
-def log_event(event, profile_ms, sequence_id="", note=""):
+def log_event(
+    event,
+    profile_ms,
+    sequence_id="",
+    note="",
+    run_type="",
+    stats=None
+):
+    if stats is None:
+        stats = new_stats()
+
+    elapsed_ms = stats.get("elapsed_ms", 0.0)
+    text_elapsed_ms = stats.get("text_elapsed_ms", 0.0)
+    text_chars = stats.get("text_chars", 0)
+
+    avg_ms_per_char = safe_div(elapsed_ms, text_chars)
+    text_avg_ms_per_char = safe_div(text_elapsed_ms, text_chars)
+    chars_per_sec = safe_div(text_chars, safe_div(text_elapsed_ms, 1000.0))
+
     try:
         with open(LOG_PATH, "a") as f:
-            f.write("{:.3f},{},{},{},{}\n".format(
-                time.monotonic(),
-                event,
-                profile_ms,
-                sequence_id,
-                note.replace(",", ";")
-            ))
+            f.write(
+                "{:.3f},{},{},{},{},{:.2f},{:.2f},{},{},{},{},{},{:.2f},{:.2f},{:.2f},{}\n".format(
+                    time.monotonic(),
+                    clean_csv(event),
+                    clean_csv(run_type),
+                    profile_ms,
+                    clean_csv(sequence_id),
+                    elapsed_ms,
+                    text_elapsed_ms,
+                    text_chars,
+                    stats.get("key_events", 0),
+                    stats.get("combo_events", 0),
+                    stats.get("delay_events", 0),
+                    stats.get("total_events", 0),
+                    avg_ms_per_char,
+                    text_avg_ms_per_char,
+                    chars_per_sec,
+                    clean_csv(note),
+                )
+            )
     except Exception:
         pass
+
+def log_wait_before_next(current_profile_ms, next_profile_ms, wait_s, run_type):
+    note = "current profile finished; next_profile_ms={} starts_after_s={}".format(
+        next_profile_ms,
+        wait_s
+    )
+    log_event(
+        "WAIT_BEFORE_NEXT_PROFILE",
+        current_profile_ms,
+        note=note,
+        run_type=run_type
+    )
+
+    time.sleep(wait_s)
+
+    log_event(
+        "WAIT_DONE_NEXT_PROFILE_STARTING",
+        next_profile_ms,
+        note="wait finished; starting next profile now",
+        run_type=run_type
+    )
 
 def type_text(text, char_delay_ms, human_like=False):
     for ch in text:
@@ -194,25 +289,44 @@ def send_combo(keys):
 # ----------------------------
 def run_event(event, fixed_delay_ms, human_like=False):
     etype = event.get("type", "").lower()
+    stats = new_stats()
+    start = time.monotonic()
 
     if etype == "text":
-        type_text(event.get("value", ""), fixed_delay_ms, human_like)
+        value = event.get("value", "")
+        type_text(value, fixed_delay_ms, human_like)
+        stats["text_chars"] = len(value)
+        stats["total_events"] = 1
 
     elif etype == "key":
         send_key(event["key"])
         if fixed_delay_ms > 0:
             sleep_ms(fixed_delay_ms)
+        stats["key_events"] = 1
+        stats["total_events"] = 1
 
     elif etype == "combo":
         send_combo(event["keys"])
         if fixed_delay_ms > 0:
             sleep_ms(fixed_delay_ms)
+        stats["combo_events"] = 1
+        stats["total_events"] = 1
 
     elif etype == "delay":
         sleep_ms(int(event.get("ms", 0)))
+        stats["delay_events"] = 1
+        stats["total_events"] = 1
 
     else:
         raise ValueError("Unknown event type: {}".format(etype))
+
+    elapsed_ms = (time.monotonic() - start) * 1000.0
+    stats["elapsed_ms"] = elapsed_ms
+
+    if etype == "text":
+        stats["text_elapsed_ms"] = elapsed_ms
+
+    return stats
 
 # ----------------------------
 # Dataset loading
@@ -238,21 +352,75 @@ def load_sequences(path):
 def run_sequence(sequence, fixed_delay_ms, human_like=False):
     seq_id = sequence.get("id", "unknown")
     events = sequence.get("events", [])
+    run_type = "human_like_random" if human_like else "fixed_speed"
 
-    log_event("START_SEQUENCE", fixed_delay_ms, seq_id, "begin")
+    seq_stats = new_stats()
+    seq_start = time.monotonic()
+
+    log_event(
+        "START_SEQUENCE",
+        fixed_delay_ms,
+        seq_id,
+        "begin",
+        run_type=run_type
+    )
+
     for event in events:
-        run_event(event, fixed_delay_ms, human_like)
-    log_event("END_SEQUENCE", fixed_delay_ms, seq_id, "done")
+        event_stats = run_event(event, fixed_delay_ms, human_like)
+        merge_stats(seq_stats, event_stats)
 
-def run_single_profile(sequences, profile_ms, human_like=False):
-    note = "human_like_random" if human_like else "fixed_profile"
-    log_event("START_PROFILE", profile_ms, "", note)
+    seq_stats["elapsed_ms"] = (time.monotonic() - seq_start) * 1000.0
+
+    log_event(
+        "END_SEQUENCE",
+        fixed_delay_ms,
+        seq_id,
+        "sequence finished",
+        run_type=run_type,
+        stats=seq_stats
+    )
+
+    return seq_stats
+
+def run_single_profile(sequences, profile_ms, human_like=False, run_index=0):
+    run_type = "human_like_random" if human_like else "fixed_speed"
+    profile_stats = new_stats()
+    profile_start = time.monotonic()
+
+    log_event(
+        "START_PROFILE",
+        profile_ms,
+        "",
+        "profile started; run_index={}".format(run_index),
+        run_type=run_type
+    )
 
     for sequence in sequences:
-        run_sequence(sequence, profile_ms, human_like)
+        sequence_stats = run_sequence(sequence, profile_ms, human_like)
+        merge_stats(profile_stats, sequence_stats)
+
+        log_event(
+            "WAIT_BETWEEN_SEQUENCES",
+            profile_ms,
+            sequence.get("id", "unknown"),
+            "sequence finished; next sequence starts_after_s={}".format(INTER_SEQUENCE_DELAY_S),
+            run_type=run_type
+        )
+
         time.sleep(INTER_SEQUENCE_DELAY_S)
 
-    log_event("END_PROFILE", profile_ms, "", note)
+    profile_stats["elapsed_ms"] = (time.monotonic() - profile_start) * 1000.0
+
+    log_event(
+        "END_PROFILE",
+        profile_ms,
+        "",
+        "profile finished; run_index={}".format(run_index),
+        run_type=run_type,
+        stats=profile_stats
+    )
+
+    return profile_stats
 
 # ----------------------------
 # Main
@@ -260,19 +428,102 @@ def run_single_profile(sequences, profile_ms, human_like=False):
 def main():
     time.sleep(INITIAL_DELAY_S)
     ensure_log_header()
+
+    log_event(
+        "START_RUNNER",
+        -1,
+        "",
+        "initial delay finished; loading dataset",
+        run_type="setup"
+    )
+
     sequences = load_sequences(INPUT_PATH)
 
+    log_event(
+        "DATASET_LOADED",
+        -1,
+        "",
+        "sequence_count={}".format(len(sequences)),
+        run_type="setup"
+    )
+
+    overall_stats = new_stats()
+    overall_start = time.monotonic()
+
     if ENABLE_SPEED_SWEEP:
-        for profile_ms in SPEED_PROFILES_MS:
-            run_single_profile(sequences, profile_ms, human_like=False)
-            time.sleep(INTER_PROFILE_DELAY_S)
+        for index, profile_ms in enumerate(SPEED_PROFILES_MS):
+            profile_stats = run_single_profile(
+                sequences,
+                profile_ms,
+                human_like=False,
+                run_index=index
+            )
+            merge_stats(overall_stats, profile_stats)
+
+            if index < len(SPEED_PROFILES_MS) - 1:
+                next_profile_ms = SPEED_PROFILES_MS[index + 1]
+                log_wait_before_next(
+                    profile_ms,
+                    next_profile_ms,
+                    INTER_PROFILE_DELAY_S,
+                    "fixed_speed"
+                )
+
+        log_event(
+            "SPEED_SWEEP_FINISHED",
+            -1,
+            "",
+            "fixed speed sweep finished",
+            run_type="fixed_speed",
+            stats=overall_stats
+        )
 
         if ENABLE_HUMAN_LIKE_RANDOM_AFTER_SWEEP:
+            log_event(
+                "WAIT_BEFORE_HUMAN_LIKE_RUN",
+                -100,
+                "",
+                "speed sweep finished; human-like run starts_after_s={}".format(INTER_PROFILE_DELAY_S),
+                run_type="human_like_random"
+            )
+
+            time.sleep(INTER_PROFILE_DELAY_S)
+
             for i in range(HUMAN_LIKE_RUNS):
-                run_single_profile(sequences, -100, human_like=True)
-                time.sleep(INTER_PROFILE_DELAY_S)
+                human_stats = run_single_profile(
+                    sequences,
+                    -100,
+                    human_like=True,
+                    run_index=i
+                )
+                merge_stats(overall_stats, human_stats)
+
+                if i < HUMAN_LIKE_RUNS - 1:
+                    log_wait_before_next(
+                        -100,
+                        -100,
+                        INTER_PROFILE_DELAY_S,
+                        "human_like_random"
+                    )
 
     else:
-        run_single_profile(sequences, DEFAULT_FIXED_DELAY_MS, human_like=False)
+        profile_stats = run_single_profile(
+            sequences,
+            DEFAULT_FIXED_DELAY_MS,
+            human_like=False,
+            run_index=0
+        )
+        merge_stats(overall_stats, profile_stats)
 
-    log_event("DONE", -1, "", "all runs finished")
+    overall_stats["elapsed_ms"] = (time.monotonic() - overall_start) * 1000.0
+
+    log_event(
+        "DONE",
+        -1,
+        "",
+        "all runs finished",
+        run_type="summary",
+        stats=overall_stats
+    )
+
+main()
