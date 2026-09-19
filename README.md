@@ -351,8 +351,8 @@ You may use or modify this work with proper attribution.
 
 ## Contributors
 
-Minjin Kim
+Minjin Kim  
 Host-side detection daemon, HID testing system, and testing dataset
 
-Darian Morack
+Darian Morack  
 Database, query system, and Streamlit management interface
